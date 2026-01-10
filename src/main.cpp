@@ -20,7 +20,7 @@ int main() {
         // 2. Zeichnen
         BeginDrawing();
             ClearBackground(RAYWHITE);
-            DrawText("Glückwunsch! Raylib & CMake laufen.", 190, 200, 20, LIGHTGRAY);
+            DrawText("ANH HANDTUCH KLAU PROGRAMM", 190, 200, 20, LIGHTGRAY);
             DrawCircle(400, 300, 50, MAROON);
         EndDrawing();
     }
