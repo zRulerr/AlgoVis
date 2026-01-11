@@ -1,0 +1,23 @@
+---
+# Checks
+Checks: '
+  -*,
+  bugprone-*,
+  modernize-*,
+  readability-*,
+  performance-*,
+  cppcoreguidelines-*,
+  -readability-braces-around-statements,
+  -readability-magic-numbers
+'
+
+# Show errors with all found problems
+WarningsAsErrors: ''
+
+# Specific settings for the checks
+CheckOptions:
+  - key:             readability-identifier-naming.ClassCase
+    value:           CamelCase
+  - key:             readability-identifier-naming.FunctionCase
+    value:           camelBack
+---

@@ -9,7 +9,7 @@ int main() {
     std::cout << "C++ Standard Check: Vektor-Groesse ist " << test_version.size() << std::endl;
 
     // Fenster initialisieren (Breite, Höhe, Titel)
-    InitWindow(800, 450, "CMake + Raylib Test");
+    InitWindow(800, 450, "Suiiiii");
 
     SetTargetFPS(60); // 60 Bilder pro Sekunde
 
