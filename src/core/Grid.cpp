@@ -4,10 +4,10 @@
 Grid::Grid(): GridWidth(30), GridHeight(10) {
 }
 
-int get_GridWidth() const{
+int Grid::getGridWidth() const{
     return GridWidth;
 }
 
-int get_GridHeight() const{
+int Grid::get_GridHeight() const{
     return GridHeight;
 }

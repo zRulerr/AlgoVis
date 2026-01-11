@@ -10,12 +10,10 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 add_subdirectory(external/raylib)
 
 #Folder to include to Header files
-include_directories(include)
+include_directories(include include/core)
 
-#Setting the Source files
-set(SOURCES
-    src/main.cpp
-)
+#Source files (automatic inclusion)
+file(GLOB_RECURSE SOURCES "src/*.cpp")
 
 #Target file
 add_executable(AlgoVis ${SOURCES})
