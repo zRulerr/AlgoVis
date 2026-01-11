@@ -1,15 +1,14 @@
----
 # Checks
-Checks: '
+Checks: >
   -*,
   bugprone-*,
   modernize-*,
   readability-*,
-  performance-*,
-  cppcoreguidelines-*,
   -readability-braces-around-statements,
-  -readability-magic-numbers
-'
+  -readability-magic-numbers,
+  readability-identifier-naming,
+  readability-unused-parameter
+
 
 # Show errors with all found problems
 WarningsAsErrors: ''
@@ -20,4 +19,11 @@ CheckOptions:
     value:           CamelCase
   - key:             readability-identifier-naming.FunctionCase
     value:           camelBack
----
+  - key:             readability-identifier-naming.MemberCase
+    value:           camelBack
+  - key:             readability-identifier-naming.VariableCase
+    value:           camelBack
+  - key:             readability-identifier-naming.ParameterCase
+    value:           camelBack
+  - key:             readability-identifier-naming.LocalVariableCase
+    value:           camelBack

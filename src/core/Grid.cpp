@@ -8,6 +8,18 @@ int Grid::getGridWidth() const{
     return GridWidth;
 }
 
-int Grid::get_GridHeight() const{
+int Grid::getGridHeight() const{
     return GridHeight;
+}
+
+int Grid::getIndex() const{
+    return Index;
+}
+
+int Grid::coordsToIndex(int x, int y) const{
+    return y * GridWidth + x;
+}
+
+int Grid::indexToCoords(int i) const {
+
 }
