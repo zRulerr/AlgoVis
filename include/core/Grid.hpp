@@ -2,6 +2,7 @@
 
 #include "Node.hpp"
 #include <vector>
+#include <utility>
 
 /**
  * @class Grid
@@ -27,23 +28,28 @@ public:
     /**
      * @brief Return the Width of the Grid
      */
-    int getGridWidth() const;
+    auto getGridWidth() const -> int;
     /**
      * @brief Return the Height of the Grid
      */
-    int getGridHeight() const;
+    auto getGridHeight() const -> int;
     /**
      * @brief Return the Index of the current Cell/Node
      */
-    int getIndex() const;
+    auto getIndex() const -> int;
 
     /**
      * @brief A Method to convert the x and y coordinates of a Node to the Index
      */
-    int coordsToIndex(int x, int y) const;
+    auto coordsToIndex(int column, int row) const -> int;
     /**
-     * @brief A Method to convert the Index into the x and y coordinates of a Node
+     * @brief A Method to convert the Index into the x and y coordinates of a Node, returns a std::pair
      */
-    int indexToCoords(int i) const;
+    auto indexToCoords(int index) const -> std::pair<int, int>;
+
+    /**
+     * @brief A Method to check if the index has not stepped outside the Grid
+     */
+    auto isNotOutOfGrid(int index) const -> bool;
     
 };
