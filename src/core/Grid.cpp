@@ -1,6 +1,11 @@
 #include "Grid.hpp"
 
-Grid::Grid(): GridWidth(30), GridHeight(10) {
+Grid::Grid(int width, int height) 
+    : GridWidth(width), GridHeight(height) // Werte speichern
+{
+    // Wir füllen den Vektor direkt mit der richtigen Anzahl an Nodes
+    // So verhinderst du "Out of Bounds" Fehler später
+    nodes.resize(width * height);
 }
 
 auto Grid::getGridWidth() const -> int{

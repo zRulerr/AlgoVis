@@ -22,7 +22,7 @@ private:
     int Index;
 
 public:
-    Grid();
+    Grid(int width, int height);
     ~Grid() = default;
 
     /**
