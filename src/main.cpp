@@ -8,7 +8,12 @@ int main() {
     std::cout << "C++ Standard Check: Vektor-Groesse ist " << test_version.size() << std::endl;
 
     //Window init
-    InitWindow(800, 450, "Sui");
+    InitWindow(800, 600, "AlgoVis - Pathfinder v1.0");
+
+    // Nach InitWindow(...)
+    Image icon = LoadImage("resources/logo.png");
+    SetWindowIcon(icon);
+    UnloadImage(icon); //
 
     SetTargetFPS(60); 
 
@@ -17,8 +22,6 @@ int main() {
         
         BeginDrawing();
             ClearBackground(RAYWHITE);
-            DrawText("ANH HANDTUCH KLAU PROGRAMM", 190, 200, 20, LIGHTGRAY);
-            DrawCircle(400, 300, 50, MAROON);
         EndDrawing();
     }
 

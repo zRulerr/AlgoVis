@@ -18,6 +18,10 @@ if(CLANG_TIDY_EXE)
     )
 endif()
 
+#Copy resources folder to binary directory
+file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/resources" 
+     DESTINATION "${CMAKE_CURRENT_BINARY_DIR}")
+
 #External libraries (Raylib)
 add_subdirectory(external/raylib)
 
@@ -36,7 +40,7 @@ file(GLOB_RECURSE LIB_SOURCES "src/core/*.cpp")
 add_library(AlgoVisCore ${LIB_SOURCES})
 
 #Target file
-add_executable(AlgoVis src/main.cpp)
+add_executable(AlgoVis src/main.cpp resources.rc)
 target_link_libraries(AlgoVis PRIVATE AlgoVisCore raylib)
 
 #Folder to include to Header files
