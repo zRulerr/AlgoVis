@@ -61,12 +61,23 @@ auto Grid::toggleWallAt(int index) -> void {
     nodes[index].toggleWall();
 }
 
-auto Grid::getNeighborIndex(int currentIndex, Direction dir) -> int {
+auto Grid::getNeighborIndex(int currentIndex, Direction dir) const -> int {
+    int column = currentIndex % GridWidth; //Calculate current column
+    int row = currentIndex / GridWidth;    //Calculate current row 
+
     switch (dir) {
-        case Direction::UP:    return currentIndex - GridWidth;
-        case Direction::DOWN:  return currentIndex + GridWidth;
-        case Direction::LEFT:  return currentIndex - 1;
-        case Direction::RIGHT: return currentIndex + 1;
-        default: return currentIndex;
+        case Direction::UP:
+            return (row > 0) ? currentIndex - GridWidth : -1;
+
+        case Direction::DOWN:
+            return (row < GridHeight - 1) ? currentIndex + GridWidth : -1;
+
+        case Direction::LEFT: 
+            return (column > 0) ? currentIndex - 1 : -1;
+
+        case Direction::RIGHT:
+            return (column < GridWidth - 1) ? currentIndex + 1 : -1;
+
+        default: return -1;
     }
 }

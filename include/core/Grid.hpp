@@ -67,6 +67,6 @@ public:
     /**
      * @brief A Method to calculate the neighbours of the current index
      */
-    auto getNeighborIndex(int index, Direction dir) -> int;
+    auto getNeighborIndex(int index, Direction dir) const -> int;
     
 };
