@@ -46,7 +46,10 @@ target_include_directories(AlgoVisCore PUBLIC
 )
 
 #Catch2 Unit Tests
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/tests/GridTests.cpp")
-    add_executable(UnitTests tests/GridTests.cpp)
-    target_link_libraries(UnitTests PRIVATE AlgoVisCore Catch2::Catch2WithMain)
-endif()
+set(TEST_SOURCES 
+    tests/GridTests.cpp 
+    tests/GetNeighborIndexTest.cpp
+)
+
+add_executable(UnitTests ${TEST_SOURCES})
+target_link_libraries(UnitTests PRIVATE AlgoVisCore Catch2::Catch2WithMain)

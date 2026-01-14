@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Node.hpp"
+#include "Types.hpp"
 #include <vector>
 #include <utility> 
 
@@ -53,6 +54,19 @@ public:
      */
     auto isNotOutOfGrid(int index) const -> bool;
 
+    /**
+     * @brief A Method to check if the current Node /Index is walkable (!wall) or not walkable (wall)
+     */
     auto isWalkable(int index) const -> bool;
+
+    /**
+     * @brief A Method to toggle the current index /Node to a Wall or not
+     */
+    auto toggleWallAt(int index) -> void;
+
+    /**
+     * @brief A Method to calculate the neighbours of the current index
+     */
+    auto getNeighborIndex(int index, Direction dir) -> int;
     
 };

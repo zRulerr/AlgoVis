@@ -51,3 +51,22 @@ auto Grid::isWalkable(int index) const -> bool {
 
     return true;
 }
+
+auto Grid::toggleWallAt(int index) -> void {
+        //Check if still inside the grid
+    if (!isNotOutOfGrid(index)) {
+        return;
+    }
+
+    nodes[index].toggleWall();
+}
+
+auto Grid::getNeighborIndex(int currentIndex, Direction dir) -> int {
+    switch (dir) {
+        case Direction::UP:    return currentIndex - GridWidth;
+        case Direction::DOWN:  return currentIndex + GridWidth;
+        case Direction::LEFT:  return currentIndex - 1;
+        case Direction::RIGHT: return currentIndex + 1;
+        default: return currentIndex;
+    }
+}
