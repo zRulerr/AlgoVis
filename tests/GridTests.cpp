@@ -7,14 +7,14 @@ TEST_CASE("Grid Index Check", "[Grid]") {
 
     SECTION("Valid indices should return true") {
         // Test the middle and the edges
-        CHECK(testGrid.isNotOutOfGrid(0) == true);   // Top left
-        CHECK(testGrid.isNotOutOfGrid(99) == true);  // Down right
-        CHECK(testGrid.isNotOutOfGrid(50) == true);  // middle
+        CHECK(testGrid.isNotOutOfGrid(0));   // Top left
+        CHECK(testGrid.isNotOutOfGrid(99));  // Down right
+        CHECK(testGrid.isNotOutOfGrid(50));  // middle
     }
 
     SECTION("Invalid indices should return false") {
-        CHECK(testGrid.isNotOutOfGrid(-1) == false);  // too small
-        CHECK(testGrid.isNotOutOfGrid(100) == false); // too big by 1
-        CHECK(testGrid.isNotOutOfGrid(500) == false); // way too big
+        CHECK_FALSE(testGrid.isNotOutOfGrid(-1));  // too small
+        CHECK_FALSE(testGrid.isNotOutOfGrid(100)); // too big by 1
+        CHECK_FALSE(testGrid.isNotOutOfGrid(500)); // way too big
     }
 }

@@ -2,8 +2,8 @@
 
 Grid::Grid(int width, int height) 
     : GridWidth(width), GridHeight(height) {
-    //Vector size 
-    nodes.resize(width * height);
+    //Vector resize to width and height, "resize" expects a size_t therefore the cast
+    nodes.resize(static_cast<std::size_t>(width) * static_cast<std::size_t>(height));
 }
 
 auto Grid::getGridWidth() const -> int{
@@ -36,4 +36,18 @@ auto Grid::isNotOutOfGrid(int index) const -> bool {
     int y = position.second;   
 
     return (x >= 0 && x < GridWidth && y >= 0 && y < GridHeight);
+}
+
+auto Grid::isWalkable(int index) const -> bool {
+    //Check if still inside the grid
+    if (!isNotOutOfGrid(index)) {
+        return false;
+    }
+    
+    //Check if node is a Wall
+    if(nodes[index].getWall()) {
+        return false;
+    }
+
+    return true;
 }

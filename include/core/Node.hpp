@@ -12,10 +12,20 @@
 class Node {
     private:
         bool visited;
-        bool isWall;
+        bool wall;
         float weight;
 
     public:
         Node();
         ~Node() = default;
+
+        /**
+         * @brief A Method to get the current Wall state
+         */
+        auto getWall() const -> bool;
+
+        /**
+         * @brief A Method to toggle the current Wall state between true and false
+         */
+        auto toggleWall() -> void;
 };

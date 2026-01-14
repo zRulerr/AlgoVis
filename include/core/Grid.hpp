@@ -44,6 +44,7 @@ public:
     auto coordsToIndex(int column, int row) const -> int;
     /**
      * @brief A Method to convert the Index into the x and y coordinates of a Node, returns a std::pair
+     *  The library <utility> is needed for this
      */
     auto indexToCoords(int index) const -> std::pair<int, int>;
 
@@ -51,5 +52,7 @@ public:
      * @brief A Method to check if the index has not stepped outside the Grid
      */
     auto isNotOutOfGrid(int index) const -> bool;
+
+    auto isWalkable(int index) const -> bool;
     
 };
