@@ -3,21 +3,18 @@
 #include <iostream>
 
 int main() {
-    // Test: C++17 Feature (Structured Bindings / Initializer)
-    // Wenn das kompiliert, funktioniert dein C++17 Standard!
+    // C++17
     std::vector<int> test_version = {1, 2, 3};
     std::cout << "C++ Standard Check: Vektor-Groesse ist " << test_version.size() << std::endl;
 
-    // Fenster initialisieren (Breite, Höhe, Titel)
-    InitWindow(800, 450, "Suiiiii");
+    //Window init
+    InitWindow(800, 450, "Sui");
 
-    SetTargetFPS(60); // 60 Bilder pro Sekunde
+    SetTargetFPS(60); 
 
-    // Hauptschleife
+    //main loop
     while (!WindowShouldClose()) {
-        // 1. Update (Logik hier)
         
-        // 2. Zeichnen
         BeginDrawing();
             ClearBackground(RAYWHITE);
             DrawText("ANH HANDTUCH KLAU PROGRAMM", 190, 200, 20, LIGHTGRAY);
@@ -25,6 +22,6 @@ int main() {
         EndDrawing();
     }
 
-    CloseWindow(); // Ressourcen freigeben
+    CloseWindow();
     return 0;
 }

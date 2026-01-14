@@ -1,10 +1,8 @@
 #include "Grid.hpp"
 
 Grid::Grid(int width, int height) 
-    : GridWidth(width), GridHeight(height) // Werte speichern
-{
-    // Wir füllen den Vektor direkt mit der richtigen Anzahl an Nodes
-    // So verhinderst du "Out of Bounds" Fehler später
+    : GridWidth(width), GridHeight(height) {
+    //Vector size 
     nodes.resize(width * height);
 }
 
