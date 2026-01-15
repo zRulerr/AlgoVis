@@ -1,0 +1,3 @@
+#Ignore the RayGUI library files for language statistics
+include/raygui.h linguist-vendored
+external/* linguist-vendored
