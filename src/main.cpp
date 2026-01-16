@@ -13,18 +13,28 @@ auto main() -> int {
     //Window init
     InitWindow(static_cast<int>(Config::screenWidth), static_cast<int>(Config::screenHeight), "AlgoVis - Pathfinder v1.0");
     
+    //Icon setup
     Image icon = LoadImage("resources/logo.png");
     SetWindowIcon(icon);
     UnloadImage(icon); 
 
+    //Screen refresh rate
     SetTargetFPS(60); 
 
+    //Custom Font is initialized here
     Font customFont = UI::SetupStyle();
+
+    //GUI Elements are setup here
     UI::SetupGUIElements();
 
+    //Variables needed for ListView, refactor ?
+    int scrollIndex = 0;
+    int activeAlg = 0;
+    bool listViewEditMode = false;
+
+    //
+    bool spinnerEditMode = false;     
     int currentGridSpacing = Config::defaultGridSpacing;
-    bool spinnerEditMode = false;
-    Rectangle spinnerRec = {Config::startX, Config::startY + 25, 120, 30 };
 
     //main loop
     while (!WindowShouldClose()) {
@@ -38,15 +48,20 @@ auto main() -> int {
 
             //GUI Elements
             GuiPanel(Config::controlElements, "Rastergröße");
-            if (GuiSpinner(spinnerRec, nullptr, &currentGridSpacing, 10, 100, spinnerEditMode)) { //Rasterbreite
+            //Spinner (GridWidth)
+            if (GuiSpinner(Config::recForSpinnerWidth, nullptr, &currentGridSpacing, 10, 100, spinnerEditMode)) { //Rasterbreite
+                spinnerEditMode = !spinnerEditMode; //Wechselt den Modus bei Klick
+            }
+            //Spinner (GridHeight)
+            if (GuiSpinner(Config::recForSpinnerHeight, nullptr, &currentGridSpacing, 10, 100, spinnerEditMode)) { //Rasterbreite
                 spinnerEditMode = !spinnerEditMode; //Wechselt den Modus bei Klick
             }
             
+            //List for Algorythm selection
+            GuiListView(Config::recForListAlgorythm, "A*;Dijksta;Breadth First search;Depth First search;Right Hand Method;", &scrollIndex, &activeAlg);
 
             //Sidepanel Header text
-            DrawTextEx(customFont, "STEUERUNG", {20, 20}, 22, 2, BLACK);
-            DrawTextEx(customFont, "ANALYTICS", {Config::analyticsPanel.x + 20, 20}, 22, 2, BLACK);
-            DrawTextEx(customFont, "RASTERBREITE", {Config::startX, Config::startY}, 18, 1, DARKGRAY); //Spinnertext
+            UI::drawAllTexts(customFont);
 
 
         EndDrawing();

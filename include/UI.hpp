@@ -18,4 +18,9 @@ namespace UI {
      * @brief Initializes the GUI Elements
      */
     auto SetupGUIElements() -> void;
+
+    /**
+     * @brief A Method to draw all texts to the User Interface
+     */
+    auto drawAllTexts(Font font) -> void;
 }
