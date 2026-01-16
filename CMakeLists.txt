@@ -40,7 +40,7 @@ file(GLOB_RECURSE LIB_SOURCES "src/core/*.cpp")
 add_library(AlgoVisCore ${LIB_SOURCES})
 
 #Target file
-add_executable(AlgoVis src/main.cpp resources.rc)
+add_executable(AlgoVis src/main.cpp src/UI.cpp resources.rc)
 target_link_libraries(AlgoVis PRIVATE AlgoVisCore raylib)
 
 #Folder to include to Header files
