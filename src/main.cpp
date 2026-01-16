@@ -19,13 +19,12 @@ auto main() -> int {
 
     SetTargetFPS(60); 
 
-    //Global Style setting for GUI Elements
-    GuiSetStyle(DEFAULT, BACKGROUND_COLOR, ColorToInt(Config::myLightGray));
-    GuiSetStyle(DEFAULT, BORDER_COLOR_NORMAL, ColorToInt(LIGHTGRAY));
-    GuiSetStyle(DEFAULT, TEXT_COLOR_NORMAL, ColorToInt(BLACK));
-
     Font customFont = UI::SetupStyle();
-    
+    UI::SetupGUIElements();
+
+    int currentGridSpacing = Config::defaultGridSpacing;
+    bool spinnerEditMode = false;
+    Rectangle spinnerRec = {Config::startX, Config::startY + 25, 120, 30 };
 
     //main loop
     while (!WindowShouldClose()) {
@@ -33,25 +32,23 @@ auto main() -> int {
         BeginDrawing();
             ClearBackground(RAYWHITE);
 
-            //Background for the Side Panels
-            // DrawRectangleRec(uiPanel, LIGHTGRAY);
-            // DrawRectangleRec(analyticsPanel, ColorAlpha(LIGHTGRAY, 0.5f)); 
-
             //Seperation lines
             DrawLine(Config::sidePanelWidth, 0, Config::sidePanelWidth, Config::screenHeight, DARKGRAY); // Links
             DrawLine((int)Config::analyticsPanel.x, 0, (int)Config::analyticsPanel.x, Config::screenHeight, DARKGRAY); // Rechts
 
             //GUI Elements
             GuiPanel(Config::controlElements, "Rastergröße");
+            if (GuiSpinner(spinnerRec, nullptr, &currentGridSpacing, 10, 100, spinnerEditMode)) { //Rasterbreite
+                spinnerEditMode = !spinnerEditMode; //Wechselt den Modus bei Klick
+            }
+            
 
             //Sidepanel Header text
             DrawTextEx(customFont, "STEUERUNG", {20, 20}, 22, 2, BLACK);
             DrawTextEx(customFont, "ANALYTICS", {Config::analyticsPanel.x + 20, 20}, 22, 2, BLACK);
+            DrawTextEx(customFont, "RASTERBREITE", {Config::startX, Config::startY}, 18, 1, DARKGRAY); //Spinnertext
 
-            //Test Button 
-            // if (GuiButton((Rectangle){ 20, 100, 210, 40 }, "Algorithmus Starten")) {
-            // std::cout << "Start-Button gedrueckt!" << std::endl;
-            // }
+
         EndDrawing();
     }
     UnloadFont(customFont);
