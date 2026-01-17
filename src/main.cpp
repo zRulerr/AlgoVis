@@ -31,6 +31,7 @@ auto main() -> int {
     int scrollIndex = 0;
     int activeAlg = 0;
     bool listViewEditMode = false;
+    float algorythmSpeed = 10.0f;
 
     int currentGridSpacing = Config::defaultGridSpacing;
 
@@ -49,6 +50,7 @@ auto main() -> int {
 
             //GUI Elements
             GuiPanel(Config::controlElements, "Rastergröße");
+            GuiPanel(Config::settingsElements, "Einstellungen");
             //Spinner (GridWidth)
             if (GuiSpinner(Config::recForSpinnerWidth, nullptr, &grid.gridCols, 10, 100, grid.EditModeWidth)) { //Rasterbreite
                 grid.EditModeWidth = !grid.EditModeWidth; //Wechselt den Modus bei Klick
@@ -57,6 +59,7 @@ auto main() -> int {
             if (GuiSpinner(Config::recForSpinnerHeight, nullptr, &grid.gridRows, 10, 100, grid.EditModeHeight)) { //Rasterbreite
                 grid.EditModeHeight = !grid.EditModeHeight; //Wechselt den Modus bei Klick
             }
+            GuiSliderBar(Config::recForSlider, "Min", "Max", &algorythmSpeed, 1, 100);
             
             //List for Algorythm selection
             GuiListView(Config::recForListAlgorythm, "A*;Dijkstra;Breadth First search;Depth First search;Right Hand Method;", &scrollIndex, &activeAlg);

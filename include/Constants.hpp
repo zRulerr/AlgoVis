@@ -28,6 +28,7 @@ namespace Config {
     
     /** @brief Rectangle for inner GUI Elements (Padding) */
     inline const Rectangle controlElements = {10, 50, sidePanelWidth - 20, 180};
+    inline const Rectangle settingsElements = {10, 390, sidePanelWidth - 20, 200};
 
     /// @name Layout for Rectangles
     /// @{
@@ -46,6 +47,7 @@ namespace Config {
 
     /** */
     inline const Rectangle recForListAlgorythm = {10, controlElements.y + 180 + vertikalGap, sidePanelWidth - 20, 140};
+    inline const Rectangle recForSlider = {50,  recForSpinnerHeight.y + controlElements.height + vertikalGap + 60, sidePanelWidth - 90, 20};
 
     /** @brief The Grid Spacing is the amount of Space between each Cell/Node in pixel */
     inline const int defaultGridSpacing = 40; 
