@@ -49,5 +49,12 @@ namespace Config {
 
     /** @brief The Grid Spacing is the amount of Space between each Cell/Node in pixel */
     inline const int defaultGridSpacing = 40; 
-    
+
+    /** @brief Struct to load and change the Setting of the Grid  */
+    struct GridSettings {
+        int gridCols = 20;
+        int gridRows = 20;
+        bool EditModeWidth = false;
+        bool EditModeHeight = false;  
+    };
 }

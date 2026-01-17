@@ -9,9 +9,9 @@
 
 
 auto main() -> int {
-
     //Window init
     InitWindow(static_cast<int>(Config::screenWidth), static_cast<int>(Config::screenHeight), "AlgoVis - Pathfinder v1.0");
+    Config::GridSettings grid;
     
     //Icon setup
     Image icon = LoadImage("resources/logo.png");
@@ -32,15 +32,16 @@ auto main() -> int {
     int activeAlg = 0;
     bool listViewEditMode = false;
 
-    //
-    bool spinnerEditMode = false;     
     int currentGridSpacing = Config::defaultGridSpacing;
 
     //main loop
     while (!WindowShouldClose()) {
+
+        float cellSize = UI::CalculateCellSize(grid);
         
         BeginDrawing();
             ClearBackground(RAYWHITE);
+            BeginBlendMode(BLEND_ALPHA);
 
             //Seperation lines
             DrawLine(Config::sidePanelWidth, 0, Config::sidePanelWidth, Config::screenHeight, DARKGRAY); // Links
@@ -49,19 +50,33 @@ auto main() -> int {
             //GUI Elements
             GuiPanel(Config::controlElements, "Rastergröße");
             //Spinner (GridWidth)
-            if (GuiSpinner(Config::recForSpinnerWidth, nullptr, &currentGridSpacing, 10, 100, spinnerEditMode)) { //Rasterbreite
-                spinnerEditMode = !spinnerEditMode; //Wechselt den Modus bei Klick
+            if (GuiSpinner(Config::recForSpinnerWidth, nullptr, &grid.gridCols, 10, 100, grid.EditModeWidth)) { //Rasterbreite
+                grid.EditModeWidth = !grid.EditModeWidth; //Wechselt den Modus bei Klick
             }
             //Spinner (GridHeight)
-            if (GuiSpinner(Config::recForSpinnerHeight, nullptr, &currentGridSpacing, 10, 100, spinnerEditMode)) { //Rasterbreite
-                spinnerEditMode = !spinnerEditMode; //Wechselt den Modus bei Klick
+            if (GuiSpinner(Config::recForSpinnerHeight, nullptr, &grid.gridRows, 10, 100, grid.EditModeHeight)) { //Rasterbreite
+                grid.EditModeHeight = !grid.EditModeHeight; //Wechselt den Modus bei Klick
             }
             
             //List for Algorythm selection
-            GuiListView(Config::recForListAlgorythm, "A*;Dijksta;Breadth First search;Depth First search;Right Hand Method;", &scrollIndex, &activeAlg);
+            GuiListView(Config::recForListAlgorythm, "A*;Dijkstra;Breadth First search;Depth First search;Right Hand Method;", &scrollIndex, &activeAlg);
 
             //Sidepanel Header text
             UI::drawAllTexts(customFont);
+
+            for (int i = 0; i <= grid.gridCols; i++) {
+                DrawLineV({Config::gridArea.x + (i * cellSize), Config::gridArea.y}, 
+                        {Config::gridArea.x + (i * cellSize), Config::gridArea.y + (grid.gridRows * cellSize)}, 
+                        LIGHTGRAY);
+            }
+            for (int j = 0; j <= grid.gridRows; j++) {
+                float yPos = Config::gridArea.y + (static_cast<float>(j) * cellSize);
+                
+                Vector2 start = { Config::gridArea.x, yPos };
+                Vector2 end   = { Config::gridArea.x + (static_cast<float>(grid.gridCols) * cellSize), yPos };
+                
+                DrawLineV(start, end, LIGHTGRAY);
+            }
 
 
         EndDrawing();

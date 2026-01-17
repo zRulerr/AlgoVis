@@ -1,5 +1,6 @@
 #pragma once
 #include "raylib.h"
+#include "Constants.hpp"
 
 /**
  * @namespace UI
@@ -23,4 +24,7 @@ namespace UI {
      * @brief A Method to draw all texts to the User Interface
      */
     auto drawAllTexts(Font font) -> void;
+
+    /** @brief A Method to calculate the CellSize */
+    auto CalculateCellSize(const Config::GridSettings& grid) -> float;
 }
