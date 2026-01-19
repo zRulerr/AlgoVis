@@ -13,29 +13,29 @@
  */
 
 namespace Config {
-
-    inline const int vertikalGap = 10;
-
-    /// @name Window-Dimensions
-    /// @{
+    /** @brief Screen Dimensions */
     inline const int screenWidth = 1600;
     inline const int screenHeight = 900;
     inline const int sidePanelWidth = 300;
-    ///@}
+    inline const int screenHeightOffset = 200;
+    inline const int vertikalGap = 10;
 
     /** @brief Custom Color */
     inline const Color myLightGray = {230, 230, 230, 255};
-    
-    /** @brief Rectangle for inner GUI Elements (Padding) */
-    inline const Rectangle controlElements = {10, 50, sidePanelWidth - 20, 180};
-    inline const Rectangle settingsElements = {10, 390, sidePanelWidth - 20, 200};
 
-    /// @name Layout for Rectangles
+    /// @name Main Rectangles for different UI Areas
     /// @{
     inline const Rectangle uiPanel = {0, 0, sidePanelWidth, screenHeight};
-    inline const Rectangle gridArea = {sidePanelWidth, 0, screenWidth - (2 * sidePanelWidth), screenHeight};
+    inline const Rectangle gridArea = {sidePanelWidth, 0, screenWidth - (2 * sidePanelWidth), screenHeight - screenHeightOffset};
     inline const Rectangle analyticsPanel = {screenWidth - sidePanelWidth, 0, sidePanelWidth, screenHeight};
     ///@}
+    
+    /** @brief Rectangle for inner GUI Elements */
+    inline const Rectangle controlElements = {10, 50, sidePanelWidth - 20, 180};
+    inline const Rectangle settingsElements = {10, 390, sidePanelWidth - 20, 200};
+    inline const Rectangle playbackElements = {sidePanelWidth, gridArea.height, gridArea.width, screenHeightOffset};
+
+ 
     
     /** @brief Start point of the Text above the spinner */
     inline const float startX = controlElements.x + 10;

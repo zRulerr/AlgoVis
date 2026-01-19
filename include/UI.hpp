@@ -10,9 +10,7 @@
  */
 
 namespace UI {
-    /**
-     * @brief Initializes a Custom Font from resources/ and return the Font
-     */
+    /** @brief Initializes a Custom Font from resources/ and return the Font */
     auto SetupStyle() -> Font;
 
     /**
@@ -27,4 +25,10 @@ namespace UI {
 
     /** @brief A Method to calculate the CellSize */
     auto CalculateCellSize(const Config::GridSettings& grid) -> float;
+
+    /** @brief A Method to draw the vertical Lines of the Grid */
+    auto drawGridVerticalLines(Config::GridSettings grid, float cellSize) -> void;
+
+    /** @brief A Method to draw the horizontal Lines of the Grid */
+    auto drawGridLines(Config::GridSettings grid, float cellSize) -> void;
 }

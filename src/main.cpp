@@ -44,9 +44,11 @@ auto main() -> int {
             ClearBackground(RAYWHITE);
             BeginBlendMode(BLEND_ALPHA);
 
-            //GUI Elements
+            //GUI Panels
             GuiPanel(Config::controlElements, "Rastergröße");
             GuiPanel(Config::settingsElements, "Einstellungen");
+            GuiPanel(Config::playbackElements, "Playback Controls");
+
             //Spinner (GridWidth)
             if (GuiSpinner(Config::recForSpinnerWidth, nullptr, &grid.gridCols, 10, 100, grid.EditModeWidth)) { //Rasterbreite
                 grid.EditModeWidth = !grid.EditModeWidth; //Wechselt den Modus bei Klick
@@ -63,15 +65,8 @@ auto main() -> int {
             //Sidepanel Header text
             UI::drawAllTexts(customFont);
 
-            for (int i = 0; i <= grid.gridCols ;i++) {
-                DrawLineV({Config::gridArea.x + (i * cellSize), Config::gridArea.y},
-                        {Config::gridArea.x + (i * cellSize), Config::gridArea.y + (grid.gridRows * cellSize)}, LIGHTGRAY);
-            }
-
-
-
-
-
+            //Grid Drawing
+            UI::drawGridLines(grid, cellSize);
 
             //Seperation lines
             DrawLine(Config::sidePanelWidth, 0, Config::sidePanelWidth, Config::screenHeight, DARKGRAY); // Links

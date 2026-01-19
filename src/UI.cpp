@@ -49,4 +49,18 @@ namespace UI {
         //Return the smaller Cellsize to get quadratic Cells
         return (cellSizeX < cellSizeY) ? cellSizeX : cellSizeY;
     }
+
+    auto drawGridLines(Config::GridSettings grid, float cellSize) -> void {
+        //Draw vertical Lines
+        for (int i = 0; i <= grid.gridCols ;i++) {
+            DrawLineV({Config::gridArea.x + (i * cellSize), Config::gridArea.y},
+                    {Config::gridArea.x + (i * cellSize), Config::gridArea.y + (grid.gridRows * cellSize)}, LIGHTGRAY);
+        }
+
+        //Use same Logic to draw horizontal Lines, by rotating the coordinates
+        for (int i = 0; i <= grid.gridRows ;i++) {
+            DrawLineV({Config::gridArea.x, Config::gridArea.y + (i * cellSize)},
+                    {Config::gridArea.x + (grid.gridCols * cellSize), Config::gridArea.y + (i * cellSize)}, LIGHTGRAY);
+        }
+    }
 }
