@@ -36,6 +36,7 @@ FetchContent_MakeAvailable(Catch2)
 
 #Source files (automatic inclusion)
 file(GLOB_RECURSE LIB_SOURCES "src/core/*.cpp")
+file(GLOB_RECURSE LIB_SOURCES "src/algorithms/*.cpp")
 
 add_library(AlgoVisCore ${LIB_SOURCES})
 
@@ -47,6 +48,7 @@ target_link_libraries(AlgoVis PRIVATE AlgoVisCore raylib)
 target_include_directories(AlgoVisCore PUBLIC 
     ${CMAKE_SOURCE_DIR}/include
     ${CMAKE_SOURCE_DIR}/include/core
+    ${CMAKE_SOURCE_DIR}/include/algorithms
 )
 
 #Catch2 Unit Tests

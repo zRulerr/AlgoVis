@@ -8,6 +8,13 @@
 #include <vector>
 #include <iostream>
 
+/*
+--------------TODO List----------------
+- Basisfunktionalität Pathfinder Algorithmen implementieren
+
+
+
+*/
 
 auto main() -> int {
     //Window init
