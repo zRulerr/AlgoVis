@@ -46,7 +46,7 @@ namespace UI {
         float cellSizeX = Config::gridArea.width / grid.gridCols;
         float cellSizeY = Config::gridArea.height / grid.gridRows;
 
-        //Return Cellsize
+        //Return the smaller Cellsize to get quadratic Cells
         return (cellSizeX < cellSizeY) ? cellSizeX : cellSizeY;
     }
 }

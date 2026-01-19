@@ -44,10 +44,6 @@ auto main() -> int {
             ClearBackground(RAYWHITE);
             BeginBlendMode(BLEND_ALPHA);
 
-            //Seperation lines
-            DrawLine(Config::sidePanelWidth, 0, Config::sidePanelWidth, Config::screenHeight, DARKGRAY); // Links
-            DrawLine((int)Config::analyticsPanel.x, 0, (int)Config::analyticsPanel.x, Config::screenHeight, DARKGRAY); // Rechts
-
             //GUI Elements
             GuiPanel(Config::controlElements, "Rastergröße");
             GuiPanel(Config::settingsElements, "Einstellungen");
@@ -67,19 +63,19 @@ auto main() -> int {
             //Sidepanel Header text
             UI::drawAllTexts(customFont);
 
-            for (int i = 0; i <= grid.gridCols; i++) {
-                DrawLineV({Config::gridArea.x + (i * cellSize), Config::gridArea.y}, 
-                        {Config::gridArea.x + (i * cellSize), Config::gridArea.y + (grid.gridRows * cellSize)}, 
-                        LIGHTGRAY);
+            for (int i = 0; i <= grid.gridCols ;i++) {
+                DrawLineV({Config::gridArea.x + (i * cellSize), Config::gridArea.y},
+                        {Config::gridArea.x + (i * cellSize), Config::gridArea.y + (grid.gridRows * cellSize)}, LIGHTGRAY);
             }
-            for (int j = 0; j <= grid.gridRows; j++) {
-                float yPos = Config::gridArea.y + (static_cast<float>(j) * cellSize);
-                
-                Vector2 start = { Config::gridArea.x, yPos };
-                Vector2 end   = { Config::gridArea.x + (static_cast<float>(grid.gridCols) * cellSize), yPos };
-                
-                DrawLineV(start, end, LIGHTGRAY);
-            }
+
+
+
+
+
+
+            //Seperation lines
+            DrawLine(Config::sidePanelWidth, 0, Config::sidePanelWidth, Config::screenHeight, DARKGRAY); // Links
+            DrawLine((int)Config::analyticsPanel.x, 0, (int)Config::analyticsPanel.x, Config::screenHeight, DARKGRAY); // Rechts
 
 
         EndDrawing();
@@ -88,3 +84,19 @@ auto main() -> int {
     CloseWindow();
     return 0;
 }
+
+
+
+            // for (int i = 0; i <= grid.gridCols; i++) {
+            //     DrawLineV({Config::gridArea.x + (i * cellSize), Config::gridArea.y}, 
+            //             {Config::gridArea.x + (i * cellSize), Config::gridArea.y + (grid.gridRows * cellSize)}, 
+            //             LIGHTGRAY);
+            // }
+            // for (int j = 0; j <= grid.gridRows; j++) {
+            //     float yPos = Config::gridArea.y + (static_cast<float>(j) * cellSize);
+                
+            //     Vector2 start = { Config::gridArea.x, yPos };
+            //     Vector2 end   = { Config::gridArea.x + (static_cast<float>(grid.gridCols) * cellSize), yPos };
+                
+            //     DrawLineV(start, end, LIGHTGRAY);
+            // }
