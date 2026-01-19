@@ -38,26 +38,33 @@ namespace UI {
 
     auto CalculateCellSize(const Config::GridSettings& grid) -> float {
         //Check division 
-        if (grid.gridCols <= 0 || grid.gridRows <= 0) return 0.0f;
+        if (grid.gridCols <= 0 || grid.gridRows <= 0) return 0.0F;
 
-        float cellSizeX = Config::gridArea.width / grid.gridCols;
-        float cellSizeY = Config::gridArea.height / grid.gridRows;
+        float cellSizeX = Config::gridArea.width / static_cast<float>(grid.gridCols);
+        float cellSizeY = Config::gridArea.height / static_cast<float>(grid.gridRows);
 
         //Return the smaller Cellsize to get quadratic Cells
         return (cellSizeX < cellSizeY) ? cellSizeX : cellSizeY;
     }
 
-    auto drawGridLines(Config::GridSettings grid, float cellSize) -> void {
+    auto drawGridLines(const Config::GridSettings grid, float cellSize) -> void {
         //Draw vertical Lines
-        for (int i = 0; i <= grid.gridCols ;i++) {
-            DrawLineV({Config::gridArea.x + (i * cellSize), Config::gridArea.y},
-                    {Config::gridArea.x + (i * cellSize), Config::gridArea.y + (grid.gridRows * cellSize)}, LIGHTGRAY);
+        for (int i = 0; i <= grid.gridCols; i++) {
+            float xOffset = static_cast<float>(i) * cellSize; //cast i to a float since cellSize is also a float
+            DrawLineV(
+                {Config::gridArea.x + xOffset, Config::gridArea.y},
+                {Config::gridArea.x + xOffset, Config::gridArea.y + (static_cast<float>(grid.gridRows) * cellSize) },
+                LIGHTGRAY
+            );
         }
-
-        //Use same Logic to draw horizontal Lines, by rotating the coordinates
-        for (int i = 0; i <= grid.gridRows ;i++) {
-            DrawLineV({Config::gridArea.x, Config::gridArea.y + (i * cellSize)},
-                    {Config::gridArea.x + (grid.gridCols * cellSize), Config::gridArea.y + (i * cellSize)}, LIGHTGRAY);
+        //Horizontal Lines
+        for (int j = 0; j <= grid.gridRows; j++) {
+            float yOffset = static_cast<float>(j) * cellSize; //cast j to a float since cellSize is also a float
+            DrawLineV(
+                {Config::gridArea.x, Config::gridArea.y + yOffset},
+                {Config::gridArea.x + (static_cast<float>(grid.gridCols) * cellSize), Config::gridArea.y + yOffset},
+                LIGHTGRAY
+            );
         }
     }
 

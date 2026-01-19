@@ -11,9 +11,6 @@
 /*
 --------------TODO List----------------
 - Basisfunktionalität Pathfinder Algorithmen implementieren
-
-
-
 */
 
 auto main() -> int {
@@ -53,11 +50,11 @@ auto main() -> int {
             UI::drawMainLayout(customFont, grid, cellSize);
 
             //Spinner (GridWidth)
-            if (GuiSpinner(Config::recForSpinnerWidth, nullptr, &grid.gridCols, 10, 100, grid.EditModeWidth)) { //Rasterbreite
+            if (GuiSpinner(Config::recForSpinnerWidth, nullptr, &grid.gridCols, 10, 100, grid.EditModeWidth) != 0) { //Rasterbreite
                 grid.EditModeWidth = !grid.EditModeWidth; //Wechselt den Modus bei Klick
             }
             //Spinner (GridHeight)
-            if (GuiSpinner(Config::recForSpinnerHeight, nullptr, &grid.gridRows, 10, 100, grid.EditModeHeight)) { //Rasterbreite
+            if (GuiSpinner(Config::recForSpinnerHeight, nullptr, &grid.gridRows, 10, 100, grid.EditModeHeight) != 0) { //Rasterbreite
                 grid.EditModeHeight = !grid.EditModeHeight; //Wechselt den Modus bei Klick
             }
             //Slider

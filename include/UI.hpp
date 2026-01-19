@@ -30,7 +30,7 @@ namespace UI {
     auto drawGridVerticalLines(Config::GridSettings grid, float cellSize) -> void;
 
     /** @brief A Method to draw the horizontal Lines of the Grid */
-    auto drawGridLines(Config::GridSettings grid, float cellSize) -> void;
+    auto drawGridLines(const Config::GridSettings grid, float cellSize) -> void;
 
     /** @brief A Method to draw the main GUI Panels */ 
     auto drawMainGuiPanels() -> void;
@@ -40,5 +40,4 @@ namespace UI {
 
     /** @brief Draws the Main Layout */
     auto drawMainLayout(Font customFont, const Config::GridSettings& grid, float cellSize) -> void;
-
 }
