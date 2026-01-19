@@ -31,4 +31,7 @@ namespace UI {
 
     /** @brief A Method to draw the horizontal Lines of the Grid */
     auto drawGridLines(Config::GridSettings grid, float cellSize) -> void;
+
+    /** @brief A Method to draw the main GUI Panels */ 
+    auto drawMainGuiPanels() -> void;
 }

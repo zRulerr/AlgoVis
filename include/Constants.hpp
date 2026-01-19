@@ -34,8 +34,6 @@ namespace Config {
     inline const Rectangle controlElements = {10, 50, sidePanelWidth - 20, 180};
     inline const Rectangle settingsElements = {10, 390, sidePanelWidth - 20, 200};
     inline const Rectangle playbackElements = {sidePanelWidth, gridArea.height, gridArea.width, screenHeightOffset};
-
- 
     
     /** @brief Start point of the Text above the spinner */
     inline const float startX = controlElements.x + 10;

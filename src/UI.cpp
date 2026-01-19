@@ -1,9 +1,6 @@
 #include "UI.hpp"
 #include "raygui.h"
 #include "Constants.hpp"
-#include "Shaders.hpp"
-
-Shader sdfShader = LoadShaderFromMemory(nullptr, sdfShaderCode);
 
 namespace UI {
         auto SetupStyle() -> Font {
@@ -62,5 +59,11 @@ namespace UI {
             DrawLineV({Config::gridArea.x, Config::gridArea.y + (i * cellSize)},
                     {Config::gridArea.x + (grid.gridCols * cellSize), Config::gridArea.y + (i * cellSize)}, LIGHTGRAY);
         }
+    }
+
+    auto drawMainGuiPanels() -> void {
+        GuiPanel(Config::controlElements, "Rastergröße");
+        GuiPanel(Config::settingsElements, "Einstellungen");
+        GuiPanel(Config::playbackElements, "Playback Controls");
     }
 }

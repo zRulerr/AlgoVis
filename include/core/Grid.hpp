@@ -68,5 +68,7 @@ public:
      * @brief A Method to calculate the neighbours of the current index
      */
     auto getNeighborIndex(int index, Direction dir) const -> int;
-    
+
+    /** @brief A Method to resize the Vector through user Input */
+    auto ResizeGrid(std::vector<Node>& nodes, int newCols, int newRows) -> void;
 };

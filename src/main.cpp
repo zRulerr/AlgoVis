@@ -2,6 +2,7 @@
 #define RAYGUI_IMPLEMENTATION
 #include "raygui.h"
 #include "Constants.hpp"
+#include "AppState.hpp"
 #include "UI.hpp"
 
 #include <vector>
@@ -11,8 +12,11 @@
 auto main() -> int {
     //Window init
     InitWindow(static_cast<int>(Config::screenWidth), static_cast<int>(Config::screenHeight), "AlgoVis - Pathfinder v1.0");
+
+    //Grid Settings init
     Config::GridSettings grid;
-    
+    AppState state;
+
     //Icon setup
     Image icon = LoadImage("resources/logo.png");
     SetWindowIcon(icon);
@@ -27,12 +31,6 @@ auto main() -> int {
     //GUI Elements are setup here
     UI::SetupGUIElements();
 
-    //Variables needed for ListView, refactor ?
-    int scrollIndex = 0;
-    int activeAlg = 0;
-    bool listViewEditMode = false;
-    float algorythmSpeed = 10.0f;
-
     int currentGridSpacing = Config::defaultGridSpacing;
 
     //main loop
@@ -44,10 +42,8 @@ auto main() -> int {
             ClearBackground(RAYWHITE);
             BeginBlendMode(BLEND_ALPHA);
 
-            //GUI Panels
-            GuiPanel(Config::controlElements, "Rastergröße");
-            GuiPanel(Config::settingsElements, "Einstellungen");
-            GuiPanel(Config::playbackElements, "Playback Controls");
+            //Draw Main GUI Panels
+            UI::drawMainGuiPanels();
 
             //Spinner (GridWidth)
             if (GuiSpinner(Config::recForSpinnerWidth, nullptr, &grid.gridCols, 10, 100, grid.EditModeWidth)) { //Rasterbreite
@@ -57,10 +53,10 @@ auto main() -> int {
             if (GuiSpinner(Config::recForSpinnerHeight, nullptr, &grid.gridRows, 10, 100, grid.EditModeHeight)) { //Rasterbreite
                 grid.EditModeHeight = !grid.EditModeHeight; //Wechselt den Modus bei Klick
             }
-            GuiSliderBar(Config::recForSlider, "Min", "Max", &algorythmSpeed, 1, 100);
+            GuiSliderBar(Config::recForSlider, "Min", "Max", &state.algorythmSpeed, 1, 100);
             
             //List for Algorythm selection
-            GuiListView(Config::recForListAlgorythm, "A*;Dijkstra;Breadth First search;Depth First search;Right Hand Method;", &scrollIndex, &activeAlg);
+            GuiListView(Config::recForListAlgorythm, "A*;Dijkstra;Breadth First search;Depth First search;Right Hand Method;", &state.scrollIndex, &state.activeAlg);
 
             //Sidepanel Header text
             UI::drawAllTexts(customFont);
@@ -79,19 +75,3 @@ auto main() -> int {
     CloseWindow();
     return 0;
 }
-
-
-
-            // for (int i = 0; i <= grid.gridCols; i++) {
-            //     DrawLineV({Config::gridArea.x + (i * cellSize), Config::gridArea.y}, 
-            //             {Config::gridArea.x + (i * cellSize), Config::gridArea.y + (grid.gridRows * cellSize)}, 
-            //             LIGHTGRAY);
-            // }
-            // for (int j = 0; j <= grid.gridRows; j++) {
-            //     float yPos = Config::gridArea.y + (static_cast<float>(j) * cellSize);
-                
-            //     Vector2 start = { Config::gridArea.x, yPos };
-            //     Vector2 end   = { Config::gridArea.x + (static_cast<float>(grid.gridCols) * cellSize), yPos };
-                
-            //     DrawLineV(start, end, LIGHTGRAY);
-            // }
