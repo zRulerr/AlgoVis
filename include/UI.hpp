@@ -34,4 +34,11 @@ namespace UI {
 
     /** @brief A Method to draw the main GUI Panels */ 
     auto drawMainGuiPanels() -> void;
+
+    /** @brief A Method to draw lines seperating the AnaylticsUI, grid, and SettingUI */
+    auto drawSeperationLines() -> void;
+
+    /** @brief Draws the Main Layout */
+    auto drawMainLayout(Font customFont, const Config::GridSettings& grid, float cellSize) -> void;
+
 }

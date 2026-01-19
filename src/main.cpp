@@ -49,8 +49,8 @@ auto main() -> int {
             ClearBackground(RAYWHITE);
             BeginBlendMode(BLEND_ALPHA);
 
-            //Draw Main GUI Panels
-            UI::drawMainGuiPanels();
+            //Draw UI Layout
+            UI::drawMainLayout(customFont, grid, cellSize);
 
             //Spinner (GridWidth)
             if (GuiSpinner(Config::recForSpinnerWidth, nullptr, &grid.gridCols, 10, 100, grid.EditModeWidth)) { //Rasterbreite
@@ -60,21 +60,11 @@ auto main() -> int {
             if (GuiSpinner(Config::recForSpinnerHeight, nullptr, &grid.gridRows, 10, 100, grid.EditModeHeight)) { //Rasterbreite
                 grid.EditModeHeight = !grid.EditModeHeight; //Wechselt den Modus bei Klick
             }
+            //Slider
             GuiSliderBar(Config::recForSlider, "Min", "Max", &state.algorythmSpeed, 1, 100);
             
             //List for Algorythm selection
             GuiListView(Config::recForListAlgorythm, "A*;Dijkstra;Breadth First search;Depth First search;Right Hand Method;", &state.scrollIndex, &state.activeAlg);
-
-            //Sidepanel Header text
-            UI::drawAllTexts(customFont);
-
-            //Grid Drawing
-            UI::drawGridLines(grid, cellSize);
-
-            //Seperation lines
-            DrawLine(Config::sidePanelWidth, 0, Config::sidePanelWidth, Config::screenHeight, DARKGRAY); // Links
-            DrawLine((int)Config::analyticsPanel.x, 0, (int)Config::analyticsPanel.x, Config::screenHeight, DARKGRAY); // Rechts
-
 
         EndDrawing();
     }

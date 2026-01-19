@@ -82,7 +82,7 @@ auto Grid::getNeighborIndex(int currentIndex, Direction dir) const -> int {
     }
 }
 
-auto ResizeGrid(std::vector<Node>& nodes, int newCols, int newRows) -> void {
+auto Grid::ResizeGrid(std::vector<Node>& nodes, int newCols, int newRows) -> void {
     nodes.clear();
     nodes.resize(newCols * newRows);
 }

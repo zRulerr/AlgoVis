@@ -66,4 +66,24 @@ namespace UI {
         GuiPanel(Config::settingsElements, "Einstellungen");
         GuiPanel(Config::playbackElements, "Playback Controls");
     }
+
+    auto drawSeperationLines() -> void {
+        //Seperation lines
+        DrawLine(Config::sidePanelWidth, 0, Config::sidePanelWidth, Config::screenHeight, DARKGRAY); // Links
+        DrawLine((int)Config::analyticsPanel.x, 0, (int)Config::analyticsPanel.x, Config::screenHeight, DARKGRAY); // Rechts
+    }
+
+    auto drawMainLayout(Font customFont, const Config::GridSettings& grid, float cellSize) -> void {
+        //Draw Main GUI Panels
+        drawMainGuiPanels();
+
+        //Sidepanel Header text
+        drawAllTexts(customFont);
+
+        //Grid Drawing
+        drawGridLines(grid, cellSize);
+
+        //Seperation Lines drawing
+        drawSeperationLines();
+    }
 }

@@ -35,8 +35,10 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(Catch2)
 
 #Source files (automatic inclusion)
-file(GLOB_RECURSE LIB_SOURCES "src/core/*.cpp")
-file(GLOB_RECURSE LIB_SOURCES "src/algorithms/*.cpp")
+file(GLOB_RECURSE LIB_SOURCES
+    "src/core/*.cpp"
+    "src/algorithms/*.cpp"
+)
 
 add_library(AlgoVisCore ${LIB_SOURCES})
 
