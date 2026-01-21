@@ -19,6 +19,8 @@ namespace Config {
     inline const int sidePanelWidth = 300;
     inline const int screenHeightOffset = 200;
     inline const int vertikalGap = 10;
+    inline const int buttonHeight = 40;
+    inline const int buttonWidth = 120;
 
     /** @brief Custom Color */
     inline const Color myLightGray = {230, 230, 230, 255};
@@ -44,8 +46,9 @@ namespace Config {
 
     inline const Rectangle recForListAlgorythm = {10, controlElements.y + 180 + vertikalGap, sidePanelWidth - 20, 130};
     inline const Rectangle settingsElements = {10, recForListAlgorythm.y + 140, sidePanelWidth - 20, 200};
-    inline const Rectangle recForSlider = {50,  recForSpinnerHeight.y + controlElements.height + vertikalGap + 60, sidePanelWidth - 90, 20};
+    inline const Rectangle recForSlider = {50,  recForSpinnerHeight.y + controlElements.height + vertikalGap + 70, sidePanelWidth - 100, 20}; //Speed
     inline const Rectangle playbackElements = {sidePanelWidth, gridArea.height, gridArea.width, screenHeightOffset};
+    inline const Rectangle recForStartStopButton = {playbackElements.x + (playbackElements.width /2) - (buttonWidth /2), playbackElements.y + (playbackElements.height /2) - (buttonHeight /2), buttonWidth, buttonHeight};
 
     /** @brief The Grid Spacing is the amount of Space between each Cell/Node in pixel */
     inline const int defaultGridSpacing = 40; 

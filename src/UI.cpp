@@ -34,6 +34,7 @@ namespace UI {
         DrawTextEx(font, "ANALYTICS", {Config::analyticsPanel.x + 20, 20}, 24, 2, BLACK);
         DrawTextEx(font, "Rasterbreite", {Config::startX, Config::startY}, 16, 1, BLACK); //Spinnertext
         DrawTextEx(font, "Rasterhöhe", {Config::startX, Config::startY + 60}, 16, 1, BLACK); //Spinnertext
+        DrawTextEx(font, "Animation speed", {Config::settingsElements.x + 10, Config::settingsElements.y + 30}, 16, 1, BLACK);
     }
 
     auto CalculateCellSize(const Config::GridSettings& grid) -> float {
@@ -74,6 +75,12 @@ namespace UI {
         GuiPanel(Config::playbackElements, "Playback Controls");
     }
 
+    auto drawGUIButtons () -> void {
+        if (GuiButton(Config::recForStartStopButton, "Start | Stop") != 0) {
+            TraceLog(LOG_INFO, "Button \"Start /Stop\" has been pressed!");
+        }
+    }
+
     auto drawSeperationLines() -> void {
         //Seperation lines
         DrawLine(Config::sidePanelWidth, 0, Config::sidePanelWidth, Config::screenHeight, DARKGRAY); // Links
@@ -81,14 +88,17 @@ namespace UI {
     }
 
     auto drawMainLayout(Font customFont, const Config::GridSettings& grid, float cellSize) -> void {
+        //Grid Drawing
+        drawGridLines(grid, cellSize);
+        
         //Draw Main GUI Panels
         drawMainGuiPanels();
 
+        //Draw Elements like buttons or lists etc.
+        drawGUIButtons();
+
         //Sidepanel Header text
         drawAllTexts(customFont);
-
-        //Grid Drawing
-        drawGridLines(grid, cellSize);
 
         //Seperation Lines drawing
         drawSeperationLines();
