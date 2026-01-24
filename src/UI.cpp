@@ -30,11 +30,12 @@ namespace UI {
     }
 
     auto drawAllTexts(Font font) -> void {
-        DrawTextEx(font, "STEUERUNG", {20, 20}, 24, 2, BLACK);
+        DrawTextEx(font, "CONTROLS", {20, 20}, 24, 2, BLACK);
         DrawTextEx(font, "ANALYTICS", {Config::analyticsPanel.x + 20, 20}, 24, 2, BLACK);
-        DrawTextEx(font, "Rasterbreite", {Config::startX, Config::startY}, 16, 1, BLACK); //Spinnertext
-        DrawTextEx(font, "Rasterhöhe", {Config::startX, Config::startY + 60}, 16, 1, BLACK); //Spinnertext
+        DrawTextEx(font, "Gridwidth", {Config::startX, Config::startY}, 16, 1, BLACK); //Spinnertext
+        DrawTextEx(font, "Gridheight", {Config::startX, Config::startY + 60}, 16, 1, BLACK); //Spinnertext
         DrawTextEx(font, "Animation speed", {Config::settingsElements.x + 10, Config::settingsElements.y + 30}, 16, 1, BLACK);
+        DrawTextEx(font, "Draw Walls (toggle)", {Config::settingsElements.x + 10, Config::settingsElements.y + 85}, 16, 1, BLACK);
     }
 
     auto CalculateCellSize(const Config::GridSettings& grid) -> float {
@@ -70,14 +71,18 @@ namespace UI {
     }
 
     auto drawMainGuiPanels() -> void {
-        GuiPanel(Config::controlElements, "Rastergröße");
-        GuiPanel(Config::settingsElements, "Einstellungen");
+        GuiPanel(Config::controlElements, "Grid Dimensions");
+        GuiPanel(Config::settingsElements, "Settings");
         GuiPanel(Config::playbackElements, "Playback Controls");
     }
 
     auto drawGUIButtons () -> void {
         if (GuiButton(Config::recForStartStopButton, "Start | Stop") != 0) {
             TraceLog(LOG_INFO, "Button \"Start /Stop\" has been pressed!");
+        }
+
+        //if (GuiCheckBox(Config::recForDrawWallCheckbox, "Wall", s) != 0) {
+
         }
     }
 

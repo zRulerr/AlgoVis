@@ -49,6 +49,7 @@ namespace Config {
     inline const Rectangle recForSlider = {50,  recForSpinnerHeight.y + controlElements.height + vertikalGap + 70, sidePanelWidth - 100, 20}; //Speed
     inline const Rectangle playbackElements = {sidePanelWidth, gridArea.height, gridArea.width, screenHeightOffset};
     inline const Rectangle recForStartStopButton = {playbackElements.x + (playbackElements.width /2) - (buttonWidth /2), playbackElements.y + (playbackElements.height /2) - (buttonHeight /2), buttonWidth, buttonHeight};
+    inline const Rectangle recForDrawWallCheckbox = {recForSlider.x , recForSlider.y, 20, 20};
 
     /** @brief The Grid Spacing is the amount of Space between each Cell/Node in pixel */
     inline const int defaultGridSpacing = 40; 
