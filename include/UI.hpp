@@ -1,9 +1,21 @@
 #pragma once
 #include "raylib.h"
+#include <array>
 #include "Constants.hpp"
 #include "AppState.hpp"
 #include "Node.hpp"
 #include "Grid.hpp"
+
+/**
+ * @struct GridTransform
+ * @brief Variables that transform the grid are stored here
+ */
+
+struct GridTransform {
+    float cellSize;
+    float offsetX;
+    float offsetY;
+};
 
 /**
  * @namespace UI
@@ -48,11 +60,11 @@ namespace UI {
     auto drawMainLayout(Font customFont, const Config::GridSettings& grid, AppState& state, float cellSize, float offsetX, float offsetY) -> void;
 
     /** @brief A Method to set Walls inside the grid, which will be drawn by a following Method */
-    auto setWalls(const Config::GridSettings& grid, float cellSize, Grid& gridLogic, AppState& state, float offsetX, float offsetY) -> void;
+    auto setWalls(const Config::GridSettings& grid, Grid& gridLogic, AppState& state, GridTransform transform) -> void;
 
     /** @brief A Method to draw black Walls with Left Mouse button click */
     auto drawWalls(const Grid& gridLogic, float cellSize, float offsetX, float offsetY) -> void;
 
     /** @brief A Method to draw the Start (green) and the end point (red) of the Grid /Maze */
-    auto drawStartStopPoint(const Grid& gridLogic, float cellSize, float offsetX, float offsetY, int startIdx, int endIdx) -> void;
+    auto drawStartStopPoint(const Grid& gridLogic, AppState& state, GridTransform transform) -> void;
 }

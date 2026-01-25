@@ -110,15 +110,15 @@ namespace UI {
         drawSeperationLines();
     }
 
-    auto setWalls(const Config::GridSettings& grid, float cellSize, Grid& gridLogic, AppState& state, float offsetX, float offsetY) -> void {
+    auto setWalls(const Config::GridSettings& grid, Grid& gridLogic, AppState& state, GridTransform transform) -> void {
         if (!state.toggleBuildWall) return;
 
-        float actualGridWidth = static_cast<float>(gridLogic.getGridWidth()) * cellSize;
-        float actualGridHeight = static_cast<float>(gridLogic.getGridHeight()) * cellSize;
+        float actualGridWidth = static_cast<float>(gridLogic.getGridWidth()) * transform.cellSize;
+        float actualGridHeight = static_cast<float>(gridLogic.getGridHeight()) * transform.cellSize;
 
         Rectangle currentGridRect = { 
-            offsetX,
-            offsetY,
+            transform.offsetX,
+            transform.offsetY,
             actualGridWidth, 
             actualGridHeight
         };
@@ -127,32 +127,39 @@ namespace UI {
 
         //Check if still in grid
         if (CheckCollisionPointRec(mousePos, currentGridRect)) {
-            float relativeX = mousePos.x - offsetX;
-            float relativeY = mousePos.y - offsetY;
 
-            int col = static_cast<int>(relativeX / cellSize);
-            int row = static_cast<int>(relativeY / cellSize);
+            int col = static_cast<int>((mousePos.x - transform.offsetX) / transform.cellSize);
+            int row = static_cast<int>((mousePos.y - transform.offsetY) / transform.cellSize);
 
-            if (col >= 0 && col < gridLogic.getGridWidth() && row >= 0 && row < gridLogic.getGridHeight()) {
-                int index = Grid::coordsToIndex(col, row, gridLogic.getGridWidth());
-                //Set Mode on First Click
-                if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
-                    if (gridLogic.hasWall(index)) {
-                        state.currentPaintMode = PaintMode::ERASING;
-                    } else {
-                        state.currentPaintMode = PaintMode::PAINTING;
-                    }
-                }
+            if (col < 0 || col >= gridLogic.getGridWidth() || row < 0 || row >= gridLogic.getGridHeight()) {
+                return;
+            }
 
-                //If Mouse is still clicked
-                if (IsMouseButtonDown(MOUSE_LEFT_BUTTON)) {
-                    if (state.currentPaintMode == PaintMode::PAINTING) {
-                        gridLogic.setWallAt(index, true);
-                    } else if (state.currentPaintMode == PaintMode::ERASING) {
-                        gridLogic.setWallAt(index, false);
-                    }
+            int index = Grid::coordsToIndex(col, row, gridLogic.getGridWidth());
+
+            //Prohibit setting a Wall at a "special point"
+            if (index == state.startNodeIndex || index == state.endNodeIndex) {
+                return; //Leave the function for current Frame
+            }
+
+            //Set Mode on First Click
+            if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+                if (gridLogic.hasWall(index)) {
+                    state.currentPaintMode = PaintMode::ERASING;
+                } else {
+                    state.currentPaintMode = PaintMode::PAINTING;
                 }
             }
+
+            //If Mouse is still clicked
+            if (IsMouseButtonDown(MOUSE_LEFT_BUTTON)) {
+                if (state.currentPaintMode == PaintMode::PAINTING) {
+                    gridLogic.setWallAt(index, true);
+                } else if (state.currentPaintMode == PaintMode::ERASING) {
+                    gridLogic.setWallAt(index, false);
+                }
+            }
+        
         }
 
         //When mouse is released reset Paint mode
@@ -167,8 +174,8 @@ namespace UI {
                 std::pair<int, int> coords = gridLogic.indexToCoords(i);
 
                 DrawRectangleV(
-                    {offsetX + static_cast<float>(coords.first) * cellSize, 
-                    offsetY + static_cast<float>(coords.second) * cellSize},
+                    {offsetX + (static_cast<float>(coords.first) * cellSize), 
+                    offsetY + (static_cast<float>(coords.second) * cellSize)},
                     {cellSize, cellSize },
                     BLACK
                 );
@@ -176,19 +183,23 @@ namespace UI {
         }
     }
 
-    auto drawStartStopPoint(const Grid& gridLogic, float cellSize, float offsetX, float offsetY, int startIdx, int endIdx) -> void {
+    auto drawStartStopPoint(const Grid& gridLogic, AppState& state, GridTransform transform) -> void {
         struct SpecialPoint {int index; Color color;};
-        SpecialPoint points[] = {{startIdx, GREEN}, {endIdx, RED}};
 
-        for (const auto& p : points) {
-            if (p.index >= 0 && p.index < gridLogic.getNodeCount()) {
-                std::pair<int, int> coords = gridLogic.indexToCoords(p.index);
+        std::array<SpecialPoint, 2> points = {{ 
+        {state.startNodeIndex, GREEN}, 
+        {state.endNodeIndex, RED} 
+    }};
+
+        for (const auto& point : points) {
+            if (point.index >= 0 && point.index < gridLogic.getNodeCount()) {
+                std::pair<int, int> coords = gridLogic.indexToCoords(point.index);
                 
                 DrawRectangleV(
-                    {offsetX + static_cast<float>(coords.first) * cellSize, 
-                    offsetY + static_cast<float>(coords.second) * cellSize},
-                    {cellSize, cellSize},
-                    p.color
+                    {transform.offsetX + (static_cast<float>(coords.first) * transform.cellSize), 
+                    transform.offsetY + (static_cast<float>(coords.second) * transform.cellSize)},
+                    {transform.cellSize, transform.cellSize},
+                    point.color
                 );
             }
         } 

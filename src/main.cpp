@@ -44,18 +44,20 @@ auto main() -> int {
 
         float cellSize = UI::CalculateCellSize(grid);
 
-        float actualWidth = gridLogic.getGridWidth() * cellSize;
-        float actualHeight = gridLogic.getGridHeight() * cellSize;
+        float actualWidth = static_cast<float>(gridLogic.getGridWidth()) * cellSize;
+        float actualHeight = static_cast<float>(gridLogic.getGridHeight()) * cellSize;
 
         //Calculate SpecialPoints
         state.startNodeIndex = (gridLogic.getGridHeight() - 1) * gridLogic.getGridWidth();
         state.endNodeIndex = gridLogic.getGridWidth() - 1;
 
-        float offsetX = Config::gridArea.x + (Config::gridArea.width - actualWidth) / 2.0F;
-        float offsetY = Config::gridArea.y + (Config::gridArea.height - actualHeight) / 2.0F;
+        float offsetX = Config::gridArea.x + ((Config::gridArea.width - actualWidth) / 2.0F);
+        float offsetY = Config::gridArea.y + ((Config::gridArea.height - actualHeight) / 2.0F);
 
-        UI::setWalls(grid, cellSize, gridLogic, state, offsetX, offsetY);
-        UI::drawStartStopPoint(gridLogic, cellSize, offsetX, offsetY, state.startNodeIndex, state.endNodeIndex);
+        GridTransform transform = { cellSize, offsetX, offsetY };
+
+        UI::setWalls(grid, gridLogic, state, transform);
+        UI::drawStartStopPoint(gridLogic, state, transform);
         
     
         BeginDrawing();
