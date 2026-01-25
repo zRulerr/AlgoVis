@@ -1,6 +1,9 @@
 #pragma once
 #include "raylib.h"
 #include "Constants.hpp"
+#include "AppState.hpp"
+#include "Node.hpp"
+#include "Grid.hpp"
 
 /**
  * @namespace UI
@@ -32,6 +35,9 @@ namespace UI {
     /** @brief A Method to draw the horizontal Lines of the Grid */
     auto drawGridLines(const Config::GridSettings grid, float cellSize) -> void;
 
+    /** @brief A Method to draw GUI Buttons and Checkboxes */
+    auto drawGUIButtons (AppState &state) -> void;
+
     /** @brief A Method to draw the main GUI Panels */ 
     auto drawMainGuiPanels() -> void;
 
@@ -39,5 +45,8 @@ namespace UI {
     auto drawSeperationLines() -> void;
 
     /** @brief Draws the Main Layout */
-    auto drawMainLayout(Font customFont, const Config::GridSettings& grid, float cellSize) -> void;
+    auto drawMainLayout(Font customFont, const Config::GridSettings& grid, AppState& state, float cellSize) -> void;
+
+    /** @brief A Method to draw black Walls inside the grid */
+    auto drawWalls(const Config::GridSettings& grid, float cellSize) -> void;
 }

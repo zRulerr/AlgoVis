@@ -47,7 +47,7 @@ auto main() -> int {
             BeginBlendMode(BLEND_ALPHA);
 
             //Draw UI Layout
-            UI::drawMainLayout(customFont, grid, cellSize);
+            UI::drawMainLayout(customFont, grid, state, cellSize);
 
             //Spinner (GridWidth)
             if (GuiSpinner(Config::recForSpinnerWidth, nullptr, &grid.gridCols, 10, 100, grid.EditModeWidth) != 0) { //Rasterbreite

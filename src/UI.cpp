@@ -1,6 +1,7 @@
 #include "UI.hpp"
 #include "raygui.h"
-#include "Constants.hpp"
+
+
 
 namespace UI {
         auto SetupStyle() -> Font {
@@ -35,7 +36,6 @@ namespace UI {
         DrawTextEx(font, "Gridwidth", {Config::startX, Config::startY}, 16, 1, BLACK); //Spinnertext
         DrawTextEx(font, "Gridheight", {Config::startX, Config::startY + 60}, 16, 1, BLACK); //Spinnertext
         DrawTextEx(font, "Animation speed", {Config::settingsElements.x + 10, Config::settingsElements.y + 30}, 16, 1, BLACK);
-        DrawTextEx(font, "Draw Walls (toggle)", {Config::settingsElements.x + 10, Config::settingsElements.y + 85}, 16, 1, BLACK);
     }
 
     auto CalculateCellSize(const Config::GridSettings& grid) -> float {
@@ -76,13 +76,13 @@ namespace UI {
         GuiPanel(Config::playbackElements, "Playback Controls");
     }
 
-    auto drawGUIButtons () -> void {
+    auto drawGUIButtons (AppState &state) -> void {
         if (GuiButton(Config::recForStartStopButton, "Start | Stop") != 0) {
             TraceLog(LOG_INFO, "Button \"Start /Stop\" has been pressed!");
         }
-
-        //if (GuiCheckBox(Config::recForDrawWallCheckbox, "Wall", s) != 0) {
-
+        //Draw Checkbox
+        if (GuiCheckBox(Config::recForDrawWallCheckbox, "Draw walls (toggle)", &state.toggleBuildWall) != 0) {
+            TraceLog(LOG_INFO, "Status: %s", state.toggleBuildWall ? "TRUE" : "FALSE");
         }
     }
 
@@ -92,7 +92,7 @@ namespace UI {
         DrawLine((int)Config::analyticsPanel.x, 0, (int)Config::analyticsPanel.x, Config::screenHeight, DARKGRAY); // Rechts
     }
 
-    auto drawMainLayout(Font customFont, const Config::GridSettings& grid, float cellSize) -> void {
+    auto drawMainLayout(Font customFont, const Config::GridSettings& grid, AppState& state, float cellSize) -> void {
         //Grid Drawing
         drawGridLines(grid, cellSize);
         
@@ -100,12 +100,30 @@ namespace UI {
         drawMainGuiPanels();
 
         //Draw Elements like buttons or lists etc.
-        drawGUIButtons();
+        drawGUIButtons(state);
 
         //Sidepanel Header text
         drawAllTexts(customFont);
 
         //Seperation Lines drawing
         drawSeperationLines();
+    }
+
+    auto drawWalls(const Config::GridSettings& grid, float cellSize) -> void {
+        Vector2 mousePos = GetMousePosition();
+
+        float relativeX = mousePos.x - Config::gridArea.x;
+        float relativeY = mousePos.y - Config::gridArea.y;
+
+        int selectCol = static_cast<int>(relativeX / cellSize);
+        int selectRow = static_cast<int>(relativeY / cellSize);
+
+        int index = Grid::coordsToIndex(selectCol, selectRow, grid.gridCols);
+
+        if (selectCol >= 0 && selectCol < grid.gridCols && selectRow >= 0 && selectRow < grid.gridRows) {
+            if (IsMouseButtonDown(MOUSE_LEFT_BUTTON)) {
+                
+            }
+        }
     }
 }

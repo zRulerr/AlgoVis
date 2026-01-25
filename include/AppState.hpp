@@ -7,4 +7,5 @@ struct AppState {
     float algorythmSpeed = 10.0f;
 
     bool isRunning = true;
+    bool toggleBuildWall = false;
 };

@@ -42,7 +42,7 @@ public:
     /**
      * @brief A Method to convert the x and y coordinates of a Node to the Index
      */
-    auto coordsToIndex(int column, int row) const -> int;
+    static auto coordsToIndex(int column, int row, int width) -> int;
     /**
      * @brief A Method to convert the Index into the x and y coordinates of a Node, returns a std::pair
      *  The library <utility> is needed for this

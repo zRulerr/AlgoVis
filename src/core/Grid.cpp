@@ -18,8 +18,8 @@ auto Grid::getIndex() const -> int{
     return Index;
 }
 
-auto Grid::coordsToIndex(int column, int row) const -> int{
-    return (row * GridWidth) + column;
+auto Grid::coordsToIndex(int column, int row, int width) -> int{
+    return (row * width) + column;
 }
 
 auto Grid::indexToCoords(int index) const -> std::pair<int, int>{
