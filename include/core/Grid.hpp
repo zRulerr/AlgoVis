@@ -64,6 +64,9 @@ public:
      */
     auto toggleWallAt(int index) -> void;
 
+    /** @brief A method to set the current index /Node as a Wall */
+    auto setWallAt(int index, bool active) -> void;
+
     /**
      * @brief A Method to calculate the neighbours of the current index
      */
@@ -71,4 +74,10 @@ public:
 
     /** @brief A Method to resize the Vector through user Input */
     auto ResizeGrid(std::vector<Node>& nodes, int newCols, int newRows) -> void;
+
+    /** @brief A Method to get the Node count */
+    auto getNodeCount() const -> int;
+
+    /** @brief A Method to Check if the Node at Index is a Wall */
+    auto hasWall(int index) const -> bool;
 };

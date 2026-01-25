@@ -28,4 +28,7 @@ class Node {
          * @brief A Method to toggle the current Wall state between true and false
          */
         auto toggleWall() -> void;
+
+        /** @brief A Method to set Wall as the current status */
+        auto setWall(bool status) -> bool;
 };

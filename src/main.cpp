@@ -17,9 +17,11 @@ auto main() -> int {
     //Window init
     InitWindow(static_cast<int>(Config::screenWidth), static_cast<int>(Config::screenHeight), "AlgoVis - Pathfinder v1.0");
 
-    //Grid Settings init
+    //Struct init
     Config::GridSettings grid;
     AppState state;
+    //GridLogic init
+    Grid gridLogic(grid.gridCols, grid.gridRows);
 
     //Icon setup
     Image icon = LoadImage("resources/logo.png");
@@ -41,7 +43,12 @@ auto main() -> int {
     while (!WindowShouldClose()) {
 
         float cellSize = UI::CalculateCellSize(grid);
-        
+
+        if (state.toggleBuildWall) {
+            UI::setWalls(grid, cellSize, gridLogic, state);
+            UI::drawWalls(gridLogic, cellSize);
+        }
+    
         BeginDrawing();
             ClearBackground(RAYWHITE);
             BeginBlendMode(BLEND_ALPHA);

@@ -47,6 +47,9 @@ namespace UI {
     /** @brief Draws the Main Layout */
     auto drawMainLayout(Font customFont, const Config::GridSettings& grid, AppState& state, float cellSize) -> void;
 
-    /** @brief A Method to draw black Walls inside the grid */
-    auto drawWalls(const Config::GridSettings& grid, float cellSize) -> void;
+    /** @brief A Method to set Walls inside the grid, which will be drawn by a following Method */
+    auto setWalls(const Config::GridSettings& grid, float cellSize, Grid& gridLogic, AppState& state) -> void;
+
+    /** @brief A Method to draw black Walls with Left Mouse button click */
+    auto drawWalls(const Grid& gridLogic, float cellSize) -> void;
 }

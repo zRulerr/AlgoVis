@@ -1,6 +1,10 @@
 #pragma once
 
+enum class PaintMode { NONE, PAINTING, ERASING };
+
 struct AppState {
+    PaintMode currentPaintMode = PaintMode::NONE;
+
     int scrollIndex = 0;
     int activeAlg = 0;
     bool listViewEditMode = false;

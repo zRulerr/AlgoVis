@@ -109,20 +109,52 @@ namespace UI {
         drawSeperationLines();
     }
 
-    auto drawWalls(const Config::GridSettings& grid, float cellSize) -> void {
+    auto setWalls(const Config::GridSettings& grid, float cellSize, Grid& gridLogic, AppState& state) -> void {
         Vector2 mousePos = GetMousePosition();
-
         float relativeX = mousePos.x - Config::gridArea.x;
         float relativeY = mousePos.y - Config::gridArea.y;
 
-        int selectCol = static_cast<int>(relativeX / cellSize);
-        int selectRow = static_cast<int>(relativeY / cellSize);
+        int col = static_cast<int>(relativeX / cellSize);
+        int row = static_cast<int>(relativeY / cellSize);
 
-        int index = Grid::coordsToIndex(selectCol, selectRow, grid.gridCols);
+        //Check if still in grid
+        if (col >= 0 && col < grid.gridCols && row >= 0 && row < grid.gridRows) {
+            int index = Grid::coordsToIndex(col, row, grid.gridCols);
 
-        if (selectCol >= 0 && selectCol < grid.gridCols && selectRow >= 0 && selectRow < grid.gridRows) {
+            //Set Mode on First Click
+            if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+                if (gridLogic.hasWall(index)) {
+                    state.currentPaintMode = PaintMode::ERASING;
+                } else {
+                    state.currentPaintMode = PaintMode::PAINTING;
+                }
+            }
+
+            //If Mouse is still clicked
             if (IsMouseButtonDown(MOUSE_LEFT_BUTTON)) {
-                
+                if (state.currentPaintMode == PaintMode::PAINTING) {
+                    gridLogic.setWallAt(index, true);
+                } else if (state.currentPaintMode == PaintMode::ERASING) {
+                    gridLogic.setWallAt(index, false);
+                }
+            }
+        }
+
+        //When mouse is released reset Paint mode
+        if (IsMouseButtonReleased(MOUSE_LEFT_BUTTON)) {
+            state.currentPaintMode = PaintMode::NONE;
+        }
+    }
+
+    auto drawWalls(const Grid& gridLogic, float cellSize) -> void {
+        for (int i = 0; i < gridLogic.getNodeCount(); i++) {
+            if (gridLogic.hasWall(i)) {
+                std::pair<int, int> coords = gridLogic.indexToCoords(i);
+                DrawRectangleV(
+                    { Config::gridArea.x + coords.first * cellSize, Config::gridArea.y + coords.second * cellSize },
+                    { cellSize, cellSize },
+                    BLACK
+                );
             }
         }
     }

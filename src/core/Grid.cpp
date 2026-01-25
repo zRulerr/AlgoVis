@@ -53,12 +53,19 @@ auto Grid::isWalkable(int index) const -> bool {
 }
 
 auto Grid::toggleWallAt(int index) -> void {
-        //Check if still inside the grid
+    //Check if still inside the grid
     if (!isNotOutOfGrid(index)) {
         return;
     }
 
     nodes[index].toggleWall();
+}
+
+auto Grid::setWallAt(int index, bool active) -> void {
+    //Check if still inside the grid
+    if (isNotOutOfGrid(index)) {
+        nodes[index].setWall(active); 
+    }
 }
 
 auto Grid::getNeighborIndex(int currentIndex, Direction dir) const -> int {
@@ -85,4 +92,15 @@ auto Grid::getNeighborIndex(int currentIndex, Direction dir) const -> int {
 auto Grid::ResizeGrid(std::vector<Node>& nodes, int newCols, int newRows) -> void {
     nodes.clear();
     nodes.resize(newCols * newRows);
+}
+
+auto Grid::getNodeCount() const -> int {
+    return static_cast<int>(nodes.size());
+}
+
+auto Grid::hasWall(int index) const -> bool {
+    if (index >= 0 && index < nodes.size()) {
+        return nodes[index].getWall();
+    }
+    return false;
 }
