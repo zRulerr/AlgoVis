@@ -73,7 +73,7 @@ public:
     auto getNeighborIndex(int index, Direction dir) const -> int;
 
     /** @brief A Method to resize the Vector through user Input */
-    auto ResizeGrid(std::vector<Node>& nodes, int newCols, int newRows) -> void;
+    auto resizeGrid(int newWidth, int newHeight) -> void;
 
     /** @brief A Method to get the Node count */
     auto getNodeCount() const -> int;

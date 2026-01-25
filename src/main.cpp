@@ -45,27 +45,40 @@ auto main() -> int {
         float cellSize = UI::CalculateCellSize(grid);
 
         UI::setWalls(grid, cellSize, gridLogic, state);
-        UI::drawWalls(gridLogic, cellSize);
+        
     
         BeginDrawing();
             ClearBackground(RAYWHITE);
             BeginBlendMode(BLEND_ALPHA);
 
+            //Draw actual Grid Borders
+            float actualWidth = gridLogic.getGridWidth() * cellSize;
+            float actualHeight = gridLogic.getGridHeight() * cellSize;
+            DrawRectangleLinesEx({Config::gridArea.x, Config::gridArea.y, actualWidth, actualHeight}, 2, RED);
+
             //Draw UI Layout
+            UI::drawWalls(gridLogic, cellSize);
             UI::drawMainLayout(customFont, grid, state, cellSize);
 
-            //Spinner (GridWidth)
-            if (GuiSpinner(Config::recForSpinnerWidth, nullptr, &grid.gridCols, 10, 100, grid.EditModeWidth) != 0) { //Rasterbreite
-                grid.EditModeWidth = !grid.EditModeWidth; //Wechselt den Modus bei Klick
+            //GUI Spinner
+            if (GuiSpinner(Config::recForSpinnerWidth, nullptr, &grid.gridCols, 10, 100, grid.EditModeWidth) != 0) {
+                grid.EditModeWidth = !grid.EditModeWidth; 
             }
-            //Spinner (GridHeight)
-            if (GuiSpinner(Config::recForSpinnerHeight, nullptr, &grid.gridRows, 10, 100, grid.EditModeHeight) != 0) { //Rasterbreite
-                grid.EditModeHeight = !grid.EditModeHeight; //Wechselt den Modus bei Klick
+
+            // Höhe-Spinner
+            if (GuiSpinner(Config::recForSpinnerHeight, nullptr, &grid.gridRows, 10, 100, grid.EditModeHeight) != 0) {
+                grid.EditModeHeight = !grid.EditModeHeight;
             }
-            //Slider
+
+            //Synchronization Grid with UI
+            if (!grid.EditModeWidth && !grid.EditModeHeight) {
+                if (grid.gridCols != gridLogic.getGridWidth() || grid.gridRows != gridLogic.getGridHeight()) {
+                    gridLogic.resizeGrid(grid.gridCols, grid.gridRows);
+                }
+            }
+
+            //Slider /ListView
             GuiSliderBar(Config::recForSlider, "Min", "Max", &state.algorythmSpeed, 1, 100);
-            
-            //List for Algorythm selection
             GuiListView(Config::recForListAlgorythm, "A*;Dijkstra;Breadth First search;Depth First search;Right Hand Method;", &state.scrollIndex, &state.activeAlg);
 
         EndDrawing();

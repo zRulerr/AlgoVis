@@ -1,8 +1,6 @@
 #include "UI.hpp"
 #include "raygui.h"
 
-
-
 namespace UI {
         auto SetupStyle() -> Font {
         
@@ -110,18 +108,30 @@ namespace UI {
     }
 
     auto setWalls(const Config::GridSettings& grid, float cellSize, Grid& gridLogic, AppState& state) -> void {
+        if (!state.toggleBuildWall) return;
+
+        float actualGridWidth = static_cast<float>(gridLogic.getGridWidth()) * cellSize;
+        float actualGridHeight = static_cast<float>(gridLogic.getGridHeight()) * cellSize;
+
+        Rectangle currentGridRect = { 
+            Config::gridArea.x, 
+            Config::gridArea.y, 
+            actualGridWidth, 
+            actualGridHeight
+        };
+
         Vector2 mousePos = GetMousePosition();
-        float relativeX = mousePos.x - Config::gridArea.x;
-        float relativeY = mousePos.y - Config::gridArea.y;
 
-        int col = static_cast<int>(relativeX / cellSize);
-        int row = static_cast<int>(relativeY / cellSize);
+        //Check if still in grid
+        if (CheckCollisionPointRec(mousePos, currentGridRect)) {
+            float relativeX = mousePos.x - Config::gridArea.x;
+            float relativeY = mousePos.y - Config::gridArea.y;
 
-        if (state.toggleBuildWall) {
-            //Check if still in grid
-            if (col >= 0 && col < grid.gridCols && row >= 0 && row < grid.gridRows) {
-                int index = Grid::coordsToIndex(col, row, grid.gridCols);
+            int col = static_cast<int>(relativeX / cellSize);
+            int row = static_cast<int>(relativeY / cellSize);
 
+            if (col >= 0 && col < gridLogic.getGridWidth() && row >= 0 && row < gridLogic.getGridHeight()) {
+                int index = Grid::coordsToIndex(col, row, gridLogic.getGridWidth());
                 //Set Mode on First Click
                 if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
                     if (gridLogic.hasWall(index)) {
@@ -140,12 +150,12 @@ namespace UI {
                     }
                 }
             }
-
-            //When mouse is released reset Paint mode
-            if (IsMouseButtonReleased(MOUSE_LEFT_BUTTON)) {
-                state.currentPaintMode = PaintMode::NONE;
-            }
         }
+
+        //When mouse is released reset Paint mode
+        if (IsMouseButtonReleased(MOUSE_LEFT_BUTTON)) {
+            state.currentPaintMode = PaintMode::NONE;
+        }   
     }
 
     auto drawWalls(const Grid& gridLogic, float cellSize) -> void {
