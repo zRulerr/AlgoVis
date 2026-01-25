@@ -44,10 +44,8 @@ auto main() -> int {
 
         float cellSize = UI::CalculateCellSize(grid);
 
-        if (state.toggleBuildWall) {
-            UI::setWalls(grid, cellSize, gridLogic, state);
-            UI::drawWalls(gridLogic, cellSize);
-        }
+        UI::setWalls(grid, cellSize, gridLogic, state);
+        UI::drawWalls(gridLogic, cellSize);
     
         BeginDrawing();
             ClearBackground(RAYWHITE);

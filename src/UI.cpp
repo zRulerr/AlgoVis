@@ -117,32 +117,34 @@ namespace UI {
         int col = static_cast<int>(relativeX / cellSize);
         int row = static_cast<int>(relativeY / cellSize);
 
-        //Check if still in grid
-        if (col >= 0 && col < grid.gridCols && row >= 0 && row < grid.gridRows) {
-            int index = Grid::coordsToIndex(col, row, grid.gridCols);
+        if (state.toggleBuildWall) {
+            //Check if still in grid
+            if (col >= 0 && col < grid.gridCols && row >= 0 && row < grid.gridRows) {
+                int index = Grid::coordsToIndex(col, row, grid.gridCols);
 
-            //Set Mode on First Click
-            if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
-                if (gridLogic.hasWall(index)) {
-                    state.currentPaintMode = PaintMode::ERASING;
-                } else {
-                    state.currentPaintMode = PaintMode::PAINTING;
+                //Set Mode on First Click
+                if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+                    if (gridLogic.hasWall(index)) {
+                        state.currentPaintMode = PaintMode::ERASING;
+                    } else {
+                        state.currentPaintMode = PaintMode::PAINTING;
+                    }
+                }
+
+                //If Mouse is still clicked
+                if (IsMouseButtonDown(MOUSE_LEFT_BUTTON)) {
+                    if (state.currentPaintMode == PaintMode::PAINTING) {
+                        gridLogic.setWallAt(index, true);
+                    } else if (state.currentPaintMode == PaintMode::ERASING) {
+                        gridLogic.setWallAt(index, false);
+                    }
                 }
             }
 
-            //If Mouse is still clicked
-            if (IsMouseButtonDown(MOUSE_LEFT_BUTTON)) {
-                if (state.currentPaintMode == PaintMode::PAINTING) {
-                    gridLogic.setWallAt(index, true);
-                } else if (state.currentPaintMode == PaintMode::ERASING) {
-                    gridLogic.setWallAt(index, false);
-                }
+            //When mouse is released reset Paint mode
+            if (IsMouseButtonReleased(MOUSE_LEFT_BUTTON)) {
+                state.currentPaintMode = PaintMode::NONE;
             }
-        }
-
-        //When mouse is released reset Paint mode
-        if (IsMouseButtonReleased(MOUSE_LEFT_BUTTON)) {
-            state.currentPaintMode = PaintMode::NONE;
         }
     }
 
