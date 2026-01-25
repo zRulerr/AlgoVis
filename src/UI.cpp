@@ -167,12 +167,30 @@ namespace UI {
                 std::pair<int, int> coords = gridLogic.indexToCoords(i);
 
                 DrawRectangleV(
-                    { offsetX + static_cast<float>(coords.first) * cellSize, 
-                    offsetY + static_cast<float>(coords.second) * cellSize },
-                    { cellSize, cellSize },
+                    {offsetX + static_cast<float>(coords.first) * cellSize, 
+                    offsetY + static_cast<float>(coords.second) * cellSize},
+                    {cellSize, cellSize },
                     BLACK
                 );
             }
         }
+    }
+
+    auto drawStartStopPoint(const Grid& gridLogic, float cellSize, float offsetX, float offsetY, int startIdx, int endIdx) -> void {
+        struct SpecialPoint {int index; Color color;};
+        SpecialPoint points[] = {{startIdx, GREEN}, {endIdx, RED}};
+
+        for (const auto& p : points) {
+            if (p.index >= 0 && p.index < gridLogic.getNodeCount()) {
+                std::pair<int, int> coords = gridLogic.indexToCoords(p.index);
+                
+                DrawRectangleV(
+                    {offsetX + static_cast<float>(coords.first) * cellSize, 
+                    offsetY + static_cast<float>(coords.second) * cellSize},
+                    {cellSize, cellSize},
+                    p.color
+                );
+            }
+        } 
     }
 }

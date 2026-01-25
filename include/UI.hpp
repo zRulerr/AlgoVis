@@ -52,4 +52,7 @@ namespace UI {
 
     /** @brief A Method to draw black Walls with Left Mouse button click */
     auto drawWalls(const Grid& gridLogic, float cellSize, float offsetX, float offsetY) -> void;
+
+    /** @brief A Method to draw the Start (green) and the end point (red) of the Grid /Maze */
+    auto drawStartStopPoint(const Grid& gridLogic, float cellSize, float offsetX, float offsetY, int startIdx, int endIdx) -> void;
 }

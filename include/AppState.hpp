@@ -2,6 +2,11 @@
 
 enum class PaintMode { NONE, PAINTING, ERASING };
 
+struct SpecialPoint {   
+    int index;
+    Color color;
+};
+
 struct AppState {
     PaintMode currentPaintMode = PaintMode::NONE;
 
@@ -12,4 +17,7 @@ struct AppState {
 
     bool isRunning = true;
     bool toggleBuildWall = false;
+
+    int startNodeIndex = 0; 
+    int endNodeIndex = 10;    
 };

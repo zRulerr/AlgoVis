@@ -47,10 +47,15 @@ auto main() -> int {
         float actualWidth = gridLogic.getGridWidth() * cellSize;
         float actualHeight = gridLogic.getGridHeight() * cellSize;
 
+        //Calculate SpecialPoints
+        state.startNodeIndex = (gridLogic.getGridHeight() - 1) * gridLogic.getGridWidth();
+        state.endNodeIndex = gridLogic.getGridWidth() - 1;
+
         float offsetX = Config::gridArea.x + (Config::gridArea.width - actualWidth) / 2.0F;
         float offsetY = Config::gridArea.y + (Config::gridArea.height - actualHeight) / 2.0F;
 
         UI::setWalls(grid, cellSize, gridLogic, state, offsetX, offsetY);
+        UI::drawStartStopPoint(gridLogic, cellSize, offsetX, offsetY, state.startNodeIndex, state.endNodeIndex);
         
     
         BeginDrawing();
@@ -85,6 +90,7 @@ auto main() -> int {
             GuiSliderBar(Config::recForSlider, "Min", "Max", &state.algorythmSpeed, 1, 100);
             GuiListView(Config::recForListAlgorythm, "A*;Dijkstra;Breadth First search;Depth First search;Right Hand Method;", &state.scrollIndex, &state.activeAlg);
 
+            
         EndDrawing();
     }
     UnloadFont(customFont);
