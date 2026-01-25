@@ -44,7 +44,13 @@ auto main() -> int {
 
         float cellSize = UI::CalculateCellSize(grid);
 
-        UI::setWalls(grid, cellSize, gridLogic, state);
+        float actualWidth = gridLogic.getGridWidth() * cellSize;
+        float actualHeight = gridLogic.getGridHeight() * cellSize;
+
+        float offsetX = Config::gridArea.x + (Config::gridArea.width - actualWidth) / 2.0F;
+        float offsetY = Config::gridArea.y + (Config::gridArea.height - actualHeight) / 2.0F;
+
+        UI::setWalls(grid, cellSize, gridLogic, state, offsetX, offsetY);
         
     
         BeginDrawing();
@@ -52,13 +58,11 @@ auto main() -> int {
             BeginBlendMode(BLEND_ALPHA);
 
             //Draw actual Grid Borders
-            float actualWidth = gridLogic.getGridWidth() * cellSize;
-            float actualHeight = gridLogic.getGridHeight() * cellSize;
-            DrawRectangleLinesEx({Config::gridArea.x, Config::gridArea.y, actualWidth, actualHeight}, 2, RED);
+            DrawRectangleLinesEx({offsetX, offsetY, actualWidth, actualHeight}, 2.0F , RED);
 
             //Draw UI Layout
-            UI::drawWalls(gridLogic, cellSize);
-            UI::drawMainLayout(customFont, grid, state, cellSize);
+            UI::drawWalls(gridLogic, cellSize, offsetX, offsetY);
+            UI::drawMainLayout(customFont, grid, state, cellSize, offsetX, offsetY);
 
             //GUI Spinner
             if (GuiSpinner(Config::recForSpinnerWidth, nullptr, &grid.gridCols, 10, 100, grid.EditModeWidth) != 0) {

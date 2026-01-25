@@ -33,7 +33,7 @@ namespace UI {
     auto drawGridVerticalLines(Config::GridSettings grid, float cellSize) -> void;
 
     /** @brief A Method to draw the horizontal Lines of the Grid */
-    auto drawGridLines(const Config::GridSettings grid, float cellSize) -> void;
+    auto drawGridLines(const Config::GridSettings grid, float cellSize, float offsetX, float offsetY) -> void;
 
     /** @brief A Method to draw GUI Buttons and Checkboxes */
     auto drawGUIButtons (AppState &state) -> void;
@@ -45,11 +45,11 @@ namespace UI {
     auto drawSeperationLines() -> void;
 
     /** @brief Draws the Main Layout */
-    auto drawMainLayout(Font customFont, const Config::GridSettings& grid, AppState& state, float cellSize) -> void;
+    auto drawMainLayout(Font customFont, const Config::GridSettings& grid, AppState& state, float cellSize, float offsetX, float offsetY) -> void;
 
     /** @brief A Method to set Walls inside the grid, which will be drawn by a following Method */
-    auto setWalls(const Config::GridSettings& grid, float cellSize, Grid& gridLogic, AppState& state) -> void;
+    auto setWalls(const Config::GridSettings& grid, float cellSize, Grid& gridLogic, AppState& state, float offsetX, float offsetY) -> void;
 
     /** @brief A Method to draw black Walls with Left Mouse button click */
-    auto drawWalls(const Grid& gridLogic, float cellSize) -> void;
+    auto drawWalls(const Grid& gridLogic, float cellSize, float offsetX, float offsetY) -> void;
 }

@@ -47,22 +47,25 @@ namespace UI {
         return (cellSizeX < cellSizeY) ? cellSizeX : cellSizeY;
     }
 
-    auto drawGridLines(const Config::GridSettings grid, float cellSize) -> void {
-        //Draw vertical Lines
+    auto drawGridLines(const Config::GridSettings grid, float cellSize, float offsetX, float offsetY) -> void {
+        //Draw Vertical lines
         for (int i = 0; i <= grid.gridCols; i++) {
-            float xOffset = static_cast<float>(i) * cellSize; //cast i to a float since cellSize is also a float
+            float xPos = offsetX + (static_cast<float>(i) * cellSize); 
+            
             DrawLineV(
-                {Config::gridArea.x + xOffset, Config::gridArea.y},
-                {Config::gridArea.x + xOffset, Config::gridArea.y + (static_cast<float>(grid.gridRows) * cellSize) },
+                {xPos, offsetY},//starting point
+                {xPos, offsetY + (static_cast<float>(grid.gridRows) * cellSize)},//endpoint
                 LIGHTGRAY
             );
         }
-        //Horizontal Lines
+
+        //Draw Horizontal lines
         for (int j = 0; j <= grid.gridRows; j++) {
-            float yOffset = static_cast<float>(j) * cellSize; //cast j to a float since cellSize is also a float
+            float yPos = offsetY + (static_cast<float>(j) * cellSize);
+
             DrawLineV(
-                {Config::gridArea.x, Config::gridArea.y + yOffset},
-                {Config::gridArea.x + (static_cast<float>(grid.gridCols) * cellSize), Config::gridArea.y + yOffset},
+                {offsetX, yPos}, //starting point
+                {offsetX + (static_cast<float>(grid.gridCols) * cellSize), yPos}, //endpoint
                 LIGHTGRAY
             );
         }
@@ -90,9 +93,9 @@ namespace UI {
         DrawLine((int)Config::analyticsPanel.x, 0, (int)Config::analyticsPanel.x, Config::screenHeight, DARKGRAY); // Rechts
     }
 
-    auto drawMainLayout(Font customFont, const Config::GridSettings& grid, AppState& state, float cellSize) -> void {
+    auto drawMainLayout(Font customFont, const Config::GridSettings& grid, AppState& state, float cellSize, float offsetX, float offsetY) -> void {
         //Grid Drawing
-        drawGridLines(grid, cellSize);
+        drawGridLines(grid, cellSize, offsetX, offsetY);
         
         //Draw Main GUI Panels
         drawMainGuiPanels();
@@ -107,15 +110,15 @@ namespace UI {
         drawSeperationLines();
     }
 
-    auto setWalls(const Config::GridSettings& grid, float cellSize, Grid& gridLogic, AppState& state) -> void {
+    auto setWalls(const Config::GridSettings& grid, float cellSize, Grid& gridLogic, AppState& state, float offsetX, float offsetY) -> void {
         if (!state.toggleBuildWall) return;
 
         float actualGridWidth = static_cast<float>(gridLogic.getGridWidth()) * cellSize;
         float actualGridHeight = static_cast<float>(gridLogic.getGridHeight()) * cellSize;
 
         Rectangle currentGridRect = { 
-            Config::gridArea.x, 
-            Config::gridArea.y, 
+            offsetX,
+            offsetY,
             actualGridWidth, 
             actualGridHeight
         };
@@ -124,8 +127,8 @@ namespace UI {
 
         //Check if still in grid
         if (CheckCollisionPointRec(mousePos, currentGridRect)) {
-            float relativeX = mousePos.x - Config::gridArea.x;
-            float relativeY = mousePos.y - Config::gridArea.y;
+            float relativeX = mousePos.x - offsetX;
+            float relativeY = mousePos.y - offsetY;
 
             int col = static_cast<int>(relativeX / cellSize);
             int row = static_cast<int>(relativeY / cellSize);
@@ -158,12 +161,14 @@ namespace UI {
         }   
     }
 
-    auto drawWalls(const Grid& gridLogic, float cellSize) -> void {
+    auto drawWalls(const Grid& gridLogic, float cellSize, float offsetX, float offsetY) -> void {
         for (int i = 0; i < gridLogic.getNodeCount(); i++) {
             if (gridLogic.hasWall(i)) {
                 std::pair<int, int> coords = gridLogic.indexToCoords(i);
+
                 DrawRectangleV(
-                    { Config::gridArea.x + coords.first * cellSize, Config::gridArea.y + coords.second * cellSize },
+                    { offsetX + static_cast<float>(coords.first) * cellSize, 
+                    offsetY + static_cast<float>(coords.second) * cellSize },
                     { cellSize, cellSize },
                     BLACK
                 );
