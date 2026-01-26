@@ -8,4 +8,4 @@ Date: 09.01.2026
 
 This is currently a Project that I've been working on to show and visualize different algorythms using C++ and Raylib. My aim with this project is to deepen my understanding of C++ and learn the renderer Raylib. 
 
-<img width="1595" height="923" alt="AlgoVisWallState" src="https://github.com/user-attachments/assets/60928f51-b817-4c5e-8340-896e9484ee86" />
+<img width="1591" height="923" alt="AlgoVisWallStatev2" src="https://github.com/user-attachments/assets/968e850a-f29a-4999-947d-85b4a2900f4a" />
