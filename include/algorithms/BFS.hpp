@@ -19,7 +19,7 @@ private:
 public:
     explicit BFS(Grid& grid);
 
-    auto BFS::initPath(int startIndex, int endIndex) -> void;
+    auto initPath(int startIndex, int endIndex) -> void;
 
     const std::vector<int>& getVisitedOrder() const {return m_visitedOrder;}
 

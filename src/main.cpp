@@ -54,7 +54,7 @@ auto main() -> int {
         float offsetX = Config::gridArea.x + ((Config::gridArea.width - actualWidth) / 2.0F);
         float offsetY = Config::gridArea.y + ((Config::gridArea.height - actualHeight) / 2.0F);
 
-        GridTransform transform = { cellSize, offsetX, offsetY };
+        GridTransform transform = {cellSize, offsetX, offsetY};
 
         UI::setWalls(grid, gridLogic, state, transform);
         UI::drawStartStopPoint(gridLogic, state, transform);
