@@ -5,6 +5,7 @@
 #include "AppState.hpp"
 #include "Node.hpp"
 #include "Grid.hpp"
+#include "BFS.hpp"
 
 /**
  * @struct GridTransform
@@ -48,7 +49,7 @@ namespace UI {
     auto drawGridLines(const Config::GridSettings grid, float cellSize, float offsetX, float offsetY) -> void;
 
     /** @brief A Method to draw GUI Buttons and Checkboxes */
-    auto drawGUIButtons (AppState &state) -> void;
+    auto drawGUIButtons (AppState &state, BFS &bfs) -> void;
 
     /** @brief A Method to draw the main GUI Panels */ 
     auto drawMainGuiPanels() -> void;
@@ -57,7 +58,7 @@ namespace UI {
     auto drawSeperationLines() -> void;
 
     /** @brief Draws the Main Layout */
-    auto drawMainLayout(Font customFont, const Config::GridSettings& grid, AppState& state, float cellSize, float offsetX, float offsetY) -> void;
+    auto drawMainLayout(Font customFont, const Config::GridSettings& grid, AppState& state, BFS& bfs, float cellSize, float offsetX, float offsetY) -> void;
 
     /** @brief A Method to set Walls inside the grid, which will be drawn by a following Method */
     auto setWalls(const Config::GridSettings& grid, Grid& gridLogic, AppState& state, GridTransform transform) -> void;
@@ -67,4 +68,7 @@ namespace UI {
 
     /** @brief A Method to draw the Start (green) and the end point (red) of the Grid /Maze */
     auto drawStartStopPoint(const Grid& gridLogic, AppState& state, GridTransform transform) -> void;
+
+    /** @brief A Method to draw the BFS state (visited nodes and path) */
+    auto drawBFSState(const BFS& bfs, const Grid& gridLogic, GridTransform transform, int startIndex, int endIndex) -> void;
 }

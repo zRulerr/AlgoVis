@@ -77,10 +77,16 @@ namespace UI {
         GuiPanel(Config::playbackElements, "Playback Controls");
     }
 
-    auto drawGUIButtons (AppState &state) -> void {
+    auto drawGUIButtons (AppState &state, BFS &bfs) -> void {
         if (GuiButton(Config::recForStartStopButton, "Start | Stop") != 0) {
+            state.isRunning = !state.isRunning;
+            if (state.isRunning) {
+                // Initialisiert die Queue und Maps im BFS
+                bfs.initPath(state.startNodeIndex, state.endNodeIndex);
+            }
             TraceLog(LOG_INFO, "Button \"Start /Stop\" has been pressed!");
         }
+
         //Draw Checkbox
         if (GuiCheckBox(Config::recForDrawWallCheckbox, "Draw walls (toggle)", &state.toggleBuildWall) != 0) {
             TraceLog(LOG_INFO, "Status: %s", state.toggleBuildWall ? "TRUE" : "FALSE");
@@ -93,7 +99,7 @@ namespace UI {
         DrawLine((int)Config::analyticsPanel.x, 0, (int)Config::analyticsPanel.x, Config::screenHeight, DARKGRAY); // Rechts
     }
 
-    auto drawMainLayout(Font customFont, const Config::GridSettings& grid, AppState& state, float cellSize, float offsetX, float offsetY) -> void {
+    auto drawMainLayout(Font customFont, const Config::GridSettings& grid, AppState& state, BFS& bfs, float cellSize, float offsetX, float offsetY) -> void {
         //Grid Drawing
         drawGridLines(grid, cellSize, offsetX, offsetY);
         
@@ -101,7 +107,7 @@ namespace UI {
         drawMainGuiPanels();
 
         //Draw Elements like buttons or lists etc.
-        drawGUIButtons(state);
+        drawGUIButtons(state, bfs);
 
         //Sidepanel Header text
         drawAllTexts(customFont);
@@ -203,5 +209,39 @@ namespace UI {
                 );
             }
         } 
+    }
+
+    auto drawBFSState(const BFS& bfs, const Grid& gridLogic, GridTransform transform, int startIndex, int endIndex) -> void {
+        //draw visited nodes
+        for (int index : bfs.getVisitedOrder()) {
+            std::pair<int, int> coords = gridLogic.indexToCoords(index);
+            
+            DrawRectangleV(
+                {transform.offsetX + (static_cast<float>(coords.first) * transform.cellSize), 
+                transform.offsetY + (static_cast<float>(coords.second) * transform.cellSize)},
+                {transform.cellSize, transform.cellSize},
+                Fade(SKYBLUE, 0.5f)
+            );
+        }
+
+        //draw path if found
+        if (bfs.isFound()) {
+            // Wir nutzen die Methode aus deiner BFS Klasse
+            // Du musst sicherstellen, dass reconstructPath in der BFS.hpp "public" ist!
+            std::vector<int> path = const_cast<BFS&>(bfs).reconstructPath(bfs.getCameFrom(), startIndex, endIndex);
+
+            for (int index : path) {
+                // Start und Ende nicht übermalen (optional, sieht aber besser aus)
+                if (index == startIndex || index == endIndex) continue;
+
+                std::pair<int, int> coords = gridLogic.indexToCoords(index);
+                DrawRectangleV(
+                    {transform.offsetX + (static_cast<float>(coords.first) * transform.cellSize), 
+                    transform.offsetY + (static_cast<float>(coords.second) * transform.cellSize)},
+                    {transform.cellSize, transform.cellSize},
+                    GOLD // Goldene Farbe für den Pfad
+                );
+            }
+        }
     }
 }
