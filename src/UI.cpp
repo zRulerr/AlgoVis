@@ -119,7 +119,7 @@ namespace UI {
         }
     }
 
-    auto drawMainLayout(Font customFont, const Config::GridSettings& grid, AppState& state, BFS& bfs, Grid& gridLogic, float cellSize, float offsetX, float offsetY) -> void {
+    auto drawMainLayout(Font customFont, Config::GridSettings& grid, AppState& state, BFS& bfs, Grid& gridLogic, float cellSize, float offsetX, float offsetY) -> void {
         //Grid Drawing
         drawGridLines(grid, cellSize, offsetX, offsetY);
         
@@ -243,18 +243,16 @@ namespace UI {
                 {transform.offsetX + (static_cast<float>(coords.first) * transform.cellSize), 
                 transform.offsetY + (static_cast<float>(coords.second) * transform.cellSize)},
                 {transform.cellSize, transform.cellSize},
-                Fade(SKYBLUE, 0.5f)
+                Fade(SKYBLUE, 0.5F)
             );
         }
 
         //draw path if found
         if (bfs.isFound()) {
-            // Wir nutzen die Methode aus deiner BFS Klasse
-            // Du musst sicherstellen, dass reconstructPath in der BFS.hpp "public" ist!
             std::vector<int> path = const_cast<BFS&>(bfs).reconstructPath(bfs.getCameFrom(), startIndex, endIndex);
 
             for (int index : path) {
-                // Start und Ende nicht übermalen (optional, sieht aber besser aus)
+                //Dont draw over start and end index
                 if (index == startIndex || index == endIndex) continue;
 
                 std::pair<int, int> coords = gridLogic.indexToCoords(index);
@@ -262,7 +260,7 @@ namespace UI {
                     {transform.offsetX + (static_cast<float>(coords.first) * transform.cellSize), 
                     transform.offsetY + (static_cast<float>(coords.second) * transform.cellSize)},
                     {transform.cellSize, transform.cellSize},
-                    GOLD // Goldene Farbe für den Pfad
+                    GOLD
                 );
             }
         }

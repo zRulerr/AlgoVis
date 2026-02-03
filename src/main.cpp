@@ -41,7 +41,7 @@ auto main() -> int {
 
     //Algo test
     BFS bfs(gridLogic);
-    float stepTimer = 0.0f;
+    float stepTimer = 0.0F;
     std::vector<int> finalPath; //store final path
 
     //main loop
@@ -64,11 +64,11 @@ auto main() -> int {
         //-------------------
         if (state.isRunning && !bfs.isFound()) {
             stepTimer += GetFrameTime();
-            float speed = 1.0f / (state.algorythmSpeed + 1.0f); 
+            float speed = 1.0F / (state.algorythmSpeed + 1.0F); 
             
             if (stepTimer >= speed) {
                 bfs.step(state.endNodeIndex);
-                stepTimer = 0.0f;
+                stepTimer = 0.0F;
             }
         }
 
