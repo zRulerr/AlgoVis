@@ -58,7 +58,7 @@ namespace UI {
     auto drawSeperationLines() -> void;
 
     /** @brief Draws the Main Layout */
-    auto drawMainLayout(Font customFont, const Config::GridSettings& grid, AppState& state, BFS& bfs, float cellSize, float offsetX, float offsetY) -> void;
+    auto drawMainLayout(Font customFont, const Config::GridSettings& grid, AppState& state, BFS& bfs, Grid& gridLogic, float cellSize, float offsetX, float offsetY) -> void;
 
     /** @brief A Method to set Walls inside the grid, which will be drawn by a following Method */
     auto setWalls(const Config::GridSettings& grid, Grid& gridLogic, AppState& state, GridTransform transform) -> void;
@@ -71,4 +71,7 @@ namespace UI {
 
     /** @brief A Method to draw the BFS state (visited nodes and path) */
     auto drawBFSState(const BFS& bfs, const Grid& gridLogic, GridTransform transform, int startIndex, int endIndex) -> void;
+
+    /** @brief A Method to draw the Grid Controls such as Spinners for grid dimensions */
+    auto drawGridControls(Config::GridSettings& grid, Grid& gridLogic) -> void;
 }

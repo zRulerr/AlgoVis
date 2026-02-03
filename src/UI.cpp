@@ -99,12 +99,35 @@ namespace UI {
         DrawLine((int)Config::analyticsPanel.x, 0, (int)Config::analyticsPanel.x, Config::screenHeight, DARKGRAY); // Rechts
     }
 
-    auto drawMainLayout(Font customFont, const Config::GridSettings& grid, AppState& state, BFS& bfs, float cellSize, float offsetX, float offsetY) -> void {
+    auto drawGridControls(Config::GridSettings& grid, Grid& gridLogic) -> void {
+        //Spinner width
+        if (GuiSpinner(Config::recForSpinnerWidth, nullptr, &grid.gridCols, 10, 100, grid.EditModeWidth) != 0) {
+            grid.EditModeWidth = !grid.EditModeWidth; 
+        }
+
+        //Spinner height
+        if (GuiSpinner(Config::recForSpinnerHeight, nullptr, &grid.gridRows, 10, 100, grid.EditModeHeight) != 0) {
+            grid.EditModeHeight = !grid.EditModeHeight;
+        }
+
+        //Synchronization Grid with UI
+        if (!grid.EditModeWidth && !grid.EditModeHeight) {
+            if (grid.gridCols != gridLogic.getGridWidth() || grid.gridRows != gridLogic.getGridHeight()) {
+                gridLogic.resizeGrid(grid.gridCols, grid.gridRows);
+                //TODO: Reset current Pathfinding?
+            }
+        }
+    }
+
+    auto drawMainLayout(Font customFont, const Config::GridSettings& grid, AppState& state, BFS& bfs, Grid& gridLogic, float cellSize, float offsetX, float offsetY) -> void {
         //Grid Drawing
         drawGridLines(grid, cellSize, offsetX, offsetY);
         
         //Draw Main GUI Panels
         drawMainGuiPanels();
+
+        //Draw Grid Controls like Spinners
+        drawGridControls(grid, gridLogic);
 
         //Draw Elements like buttons or lists etc.
         drawGUIButtons(state, bfs);

@@ -73,39 +73,18 @@ auto main() -> int {
         }
 
         UI::setWalls(grid, gridLogic, state, transform);
-        
-        
     
         BeginDrawing();
             ClearBackground(RAYWHITE);
             BeginBlendMode(BLEND_ALPHA);
 
-
-
             //Draw UI Layout
             UI::drawWalls(gridLogic, cellSize, offsetX, offsetY);
             UI::drawBFSState(bfs, gridLogic, transform, state.startNodeIndex, state.endNodeIndex);
             UI::drawStartStopPoint(gridLogic, state, transform);
-            UI::drawMainLayout(customFont, grid, state, bfs, cellSize, offsetX, offsetY);
+            UI::drawMainLayout(customFont, grid, state, bfs, gridLogic, cellSize, offsetX, offsetY);
             //Draw actual Grid Borders
             DrawRectangleLinesEx({offsetX, offsetY, actualWidth, actualHeight}, 2.0F , RED);
-
-            //GUI Spinner
-            if (GuiSpinner(Config::recForSpinnerWidth, nullptr, &grid.gridCols, 10, 100, grid.EditModeWidth) != 0) {
-                grid.EditModeWidth = !grid.EditModeWidth; 
-            }
-
-            // Höhe-Spinner
-            if (GuiSpinner(Config::recForSpinnerHeight, nullptr, &grid.gridRows, 10, 100, grid.EditModeHeight) != 0) {
-                grid.EditModeHeight = !grid.EditModeHeight;
-            }
-
-            //Synchronization Grid with UI
-            if (!grid.EditModeWidth && !grid.EditModeHeight) {
-                if (grid.gridCols != gridLogic.getGridWidth() || grid.gridRows != gridLogic.getGridHeight()) {
-                    gridLogic.resizeGrid(grid.gridCols, grid.gridRows);
-                }
-            }
 
             //Slider /ListView
             GuiSliderBar(Config::recForSlider, "Min", "Max", &state.algorythmSpeed, 1, 100);
