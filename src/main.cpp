@@ -39,6 +39,11 @@ auto main() -> int {
 
     int currentGridSpacing = Config::defaultGridSpacing;
 
+    //Algo test
+    BFS bfs(gridLogic);
+    float stepTimer = 0.0F;
+    std::vector<int> finalPath; //store final path
+
     //main loop
     while (!WindowShouldClose()) {
 
@@ -56,43 +61,34 @@ auto main() -> int {
 
         GridTransform transform = {cellSize, offsetX, offsetY};
 
+        //-------------------
+        if (state.isRunning && !bfs.isFound()) {
+            stepTimer += GetFrameTime();
+            float speed = 1.0F / (state.algorythmSpeed + 1.0F); 
+            
+            if (stepTimer >= speed) {
+                bfs.step(state.endNodeIndex);
+                stepTimer = 0.0F;
+            }
+        }
+
         UI::setWalls(grid, gridLogic, state, transform);
-        UI::drawStartStopPoint(gridLogic, state, transform);
-        
     
         BeginDrawing();
             ClearBackground(RAYWHITE);
             BeginBlendMode(BLEND_ALPHA);
 
-            //Draw actual Grid Borders
-            DrawRectangleLinesEx({offsetX, offsetY, actualWidth, actualHeight}, 2.0F , RED);
-
             //Draw UI Layout
             UI::drawWalls(gridLogic, cellSize, offsetX, offsetY);
-            UI::drawMainLayout(customFont, grid, state, cellSize, offsetX, offsetY);
-
-            //GUI Spinner
-            if (GuiSpinner(Config::recForSpinnerWidth, nullptr, &grid.gridCols, 10, 100, grid.EditModeWidth) != 0) {
-                grid.EditModeWidth = !grid.EditModeWidth; 
-            }
-
-            // Höhe-Spinner
-            if (GuiSpinner(Config::recForSpinnerHeight, nullptr, &grid.gridRows, 10, 100, grid.EditModeHeight) != 0) {
-                grid.EditModeHeight = !grid.EditModeHeight;
-            }
-
-            //Synchronization Grid with UI
-            if (!grid.EditModeWidth && !grid.EditModeHeight) {
-                if (grid.gridCols != gridLogic.getGridWidth() || grid.gridRows != gridLogic.getGridHeight()) {
-                    gridLogic.resizeGrid(grid.gridCols, grid.gridRows);
-                }
-            }
+            UI::drawBFSState(bfs, gridLogic, transform, state.startNodeIndex, state.endNodeIndex);
+            UI::drawStartStopPoint(gridLogic, state, transform);
+            UI::drawMainLayout(customFont, grid, state, bfs, gridLogic, cellSize, offsetX, offsetY);
+            //Draw actual Grid Borders
+            DrawRectangleLinesEx({offsetX, offsetY, actualWidth, actualHeight}, 2.0F , RED);
 
             //Slider /ListView
             GuiSliderBar(Config::recForSlider, "Min", "Max", &state.algorythmSpeed, 1, 100);
             GuiListView(Config::recForListAlgorythm, "A*;Dijkstra;Breadth First search;Depth First search;Right Hand Method;", &state.scrollIndex, &state.activeAlg);
-
-            
         EndDrawing();
     }
     UnloadFont(customFont);

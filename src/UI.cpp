@@ -77,10 +77,16 @@ namespace UI {
         GuiPanel(Config::playbackElements, "Playback Controls");
     }
 
-    auto drawGUIButtons (AppState &state) -> void {
+    auto drawGUIButtons (AppState &state, BFS &bfs) -> void {
         if (GuiButton(Config::recForStartStopButton, "Start | Stop") != 0) {
+            state.isRunning = !state.isRunning;
+            if (state.isRunning) {
+                // Initialisiert die Queue und Maps im BFS
+                bfs.initPath(state.startNodeIndex, state.endNodeIndex);
+            }
             TraceLog(LOG_INFO, "Button \"Start /Stop\" has been pressed!");
         }
+
         //Draw Checkbox
         if (GuiCheckBox(Config::recForDrawWallCheckbox, "Draw walls (toggle)", &state.toggleBuildWall) != 0) {
             TraceLog(LOG_INFO, "Status: %s", state.toggleBuildWall ? "TRUE" : "FALSE");
@@ -93,15 +99,38 @@ namespace UI {
         DrawLine((int)Config::analyticsPanel.x, 0, (int)Config::analyticsPanel.x, Config::screenHeight, DARKGRAY); // Rechts
     }
 
-    auto drawMainLayout(Font customFont, const Config::GridSettings& grid, AppState& state, float cellSize, float offsetX, float offsetY) -> void {
+    auto drawGridControls(Config::GridSettings& grid, Grid& gridLogic) -> void {
+        //Spinner width
+        if (GuiSpinner(Config::recForSpinnerWidth, nullptr, &grid.gridCols, 10, 100, grid.EditModeWidth) != 0) {
+            grid.EditModeWidth = !grid.EditModeWidth; 
+        }
+
+        //Spinner height
+        if (GuiSpinner(Config::recForSpinnerHeight, nullptr, &grid.gridRows, 10, 100, grid.EditModeHeight) != 0) {
+            grid.EditModeHeight = !grid.EditModeHeight;
+        }
+
+        //Synchronization Grid with UI
+        if (!grid.EditModeWidth && !grid.EditModeHeight) {
+            if (grid.gridCols != gridLogic.getGridWidth() || grid.gridRows != gridLogic.getGridHeight()) {
+                gridLogic.resizeGrid(grid.gridCols, grid.gridRows);
+                //TODO: Reset current Pathfinding?
+            }
+        }
+    }
+
+    auto drawMainLayout(Font customFont, Config::GridSettings& grid, AppState& state, BFS& bfs, Grid& gridLogic, float cellSize, float offsetX, float offsetY) -> void {
         //Grid Drawing
         drawGridLines(grid, cellSize, offsetX, offsetY);
         
         //Draw Main GUI Panels
         drawMainGuiPanels();
 
+        //Draw Grid Controls like Spinners
+        drawGridControls(grid, gridLogic);
+
         //Draw Elements like buttons or lists etc.
-        drawGUIButtons(state);
+        drawGUIButtons(state, bfs);
 
         //Sidepanel Header text
         drawAllTexts(customFont);
@@ -203,5 +232,37 @@ namespace UI {
                 );
             }
         } 
+    }
+
+    auto drawBFSState(const BFS& bfs, const Grid& gridLogic, GridTransform transform, int startIndex, int endIndex) -> void {
+        //draw visited nodes
+        for (int index : bfs.getVisitedOrder()) {
+            std::pair<int, int> coords = gridLogic.indexToCoords(index);
+            
+            DrawRectangleV(
+                {transform.offsetX + (static_cast<float>(coords.first) * transform.cellSize), 
+                transform.offsetY + (static_cast<float>(coords.second) * transform.cellSize)},
+                {transform.cellSize, transform.cellSize},
+                Fade(SKYBLUE, 0.5F)
+            );
+        }
+
+        //draw path if found
+        if (bfs.isFound()) {
+            std::vector<int> path = const_cast<BFS&>(bfs).reconstructPath(bfs.getCameFrom(), startIndex, endIndex);
+
+            for (int index : path) {
+                //Dont draw over start and end index
+                if (index == startIndex || index == endIndex) continue;
+
+                std::pair<int, int> coords = gridLogic.indexToCoords(index);
+                DrawRectangleV(
+                    {transform.offsetX + (static_cast<float>(coords.first) * transform.cellSize), 
+                    transform.offsetY + (static_cast<float>(coords.second) * transform.cellSize)},
+                    {transform.cellSize, transform.cellSize},
+                    GOLD
+                );
+            }
+        }
     }
 }

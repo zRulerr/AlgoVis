@@ -15,6 +15,7 @@ auto BFS::initPath(int startIndex, int endIndex) -> void{
     //
     m_frontier.push(startIndex);
     m_cameFrom[startIndex] = startIndex;
+    m_visitedOrder.push_back(startIndex);
 }
 
 auto BFS::step(int targetIndex) -> void {
@@ -23,6 +24,8 @@ auto BFS::step(int targetIndex) -> void {
     int current = m_frontier.front();
     m_frontier.pop();
 
+    // Diese Prüfung hier ist okay, aber meist redundant, 
+    // wenn wir sie unten beim Entdecken machen.
     if (current == targetIndex) {
         m_found = true;
         return;
@@ -30,10 +33,17 @@ auto BFS::step(int targetIndex) -> void {
 
     for (int d = 0; d < 4; ++d) {
         int next = m_grid.getNeighborIndex(current, static_cast<Direction>(d));
+        
         if (next != -1 && m_grid.isWalkable(next) && m_cameFrom.find(next) == m_cameFrom.end()) {
             m_frontier.push(next);
             m_cameFrom[next] = current;
             m_visitedOrder.push_back(next);
+
+            // SOFORT PRÜFEN: Ist dieser neue Nachbar unser Ziel?
+            if (next == targetIndex) {
+                m_found = true;
+                return; // Algorithmus sofort stoppen
+            }
         }
     }
 }
