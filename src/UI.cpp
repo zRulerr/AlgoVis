@@ -84,6 +84,12 @@ namespace UI {
                 // Initialisiert die Queue und Maps im BFS
                 bfs.initPath(state.startNodeIndex, state.endNodeIndex);
             }
+            //Developer diagnostic logs
+            if (state.isRunning) {
+                TraceLog(LOG_INFO, "state.isRunning is TRUE");
+            } else {
+                TraceLog(LOG_INFO, "state.isRunning is FALSE");
+            }
             TraceLog(LOG_INFO, "Button \"Start /Stop\" has been pressed!");
         }
 
@@ -99,16 +105,20 @@ namespace UI {
         DrawLine((int)Config::analyticsPanel.x, 0, (int)Config::analyticsPanel.x, Config::screenHeight, DARKGRAY); // Rechts
     }
 
-    auto drawGridControls(Config::GridSettings& grid, Grid& gridLogic) -> void {
+    auto drawGridControls(Config::GridSettings& grid, Grid& gridLogic, const AppState& state) -> void {
         //Spinner width
-        if (GuiSpinner(Config::recForSpinnerWidth, nullptr, &grid.gridCols, 10, 100, grid.EditModeWidth) != 0) {
+        int tempCols = grid.gridCols;
+        if (GuiSpinner(Config::recForSpinnerWidth, nullptr, &tempCols, 10, 100, grid.EditModeWidth) != 0) {
             grid.EditModeWidth = !grid.EditModeWidth; 
         }
+        if (!state.isRunning) grid.gridCols = tempCols;
 
         //Spinner height
-        if (GuiSpinner(Config::recForSpinnerHeight, nullptr, &grid.gridRows, 10, 100, grid.EditModeHeight) != 0) {
+        int tempRows = grid.gridRows;
+        if (GuiSpinner(Config::recForSpinnerHeight, nullptr, &tempRows, 10, 100, grid.EditModeHeight) != 0) {
             grid.EditModeHeight = !grid.EditModeHeight;
         }
+        if (!state.isRunning) grid.gridRows = tempRows;
 
         //Synchronization Grid with UI
         if (!grid.EditModeWidth && !grid.EditModeHeight) {
@@ -127,10 +137,11 @@ namespace UI {
         drawMainGuiPanels();
 
         //Draw Grid Controls like Spinners
-        drawGridControls(grid, gridLogic);
-
+        drawGridControls(grid, gridLogic, state);
+        
         //Draw Elements like buttons or lists etc.
         drawGUIButtons(state, bfs);
+        
 
         //Sidepanel Header text
         drawAllTexts(customFont);
@@ -140,6 +151,10 @@ namespace UI {
     }
 
     auto setWalls(const Config::GridSettings& grid, Grid& gridLogic, AppState& state, GridTransform transform) -> void {
+        if (state.isRunning) {  //Check if algorythm is running
+            return;
+        }
+
         if (!state.toggleBuildWall) return;
 
         float actualGridWidth = static_cast<float>(gridLogic.getGridWidth()) * transform.cellSize;

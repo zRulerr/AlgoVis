@@ -88,7 +88,10 @@ auto main() -> int {
 
             //Slider /ListView
             GuiSliderBar(Config::recForSlider, "Min", "Max", &state.algorythmSpeed, 1, 100);
-            GuiListView(Config::recForListAlgorythm, "A*;Dijkstra;Breadth First search;Depth First search;Right Hand Method;", &state.scrollIndex, &state.activeAlg);
+
+            int tempActive = state.activeAlg;
+            GuiListView(Config::recForListAlgorythm, "A*;Dijkstra;Breadth First search;Depth First search;Right Hand Method;", &state.scrollIndex, &tempActive);
+            if (!state.isRunning) state.activeAlg = tempActive; //Not changable while running
         EndDrawing();
     }
     UnloadFont(customFont);

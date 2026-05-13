@@ -18,7 +18,7 @@ struct AppState {
     bool listViewEditMode = false;
     float algorythmSpeed = 10.0f;
 
-    bool isRunning = true;
+    bool isRunning = false;
     bool toggleBuildWall = false;
 
     int startNodeIndex = 0; 
