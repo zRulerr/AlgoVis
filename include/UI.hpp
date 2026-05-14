@@ -74,4 +74,7 @@ namespace UI {
 
     /** @brief A Method to draw the Grid Controls such as Spinners for grid dimensions */
     auto drawGridControls(Config::GridSettings& grid, Grid& gridLogic) -> void;
+
+    /** @brief A Method to handle the logic when an algorithm is selected and the start button is pressed */
+    auto algorythmSelectionLogic(const AppState& state, BFS& bfs) -> void;
 }

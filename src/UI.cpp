@@ -82,21 +82,7 @@ namespace UI {
     auto drawGUIButtons (AppState &state, BFS &bfs) -> void {
         //Array for logging selected algorithm
         const std::array<std::string, 5> algorithms = {"A*", "Dijkstra", "Breadth First search", "Depth First search", "Right Hand Method"};
-        //Start / Stop Button
-        if (GuiButton(Config::recForStartStopButton, "Start | Stop") != 0) {
-            state.isRunning = !state.isRunning;
-            if (state.isRunning) {
-                // Initialisiert die Queue und Maps im BFS
-                bfs.initPath(state.startNodeIndex, state.endNodeIndex);
-            }
-            //Developer diagnostic logs
-            if (state.isRunning) {
-                TraceLog(LOG_INFO, "state.isRunning is TRUE");
-            } else {
-                TraceLog(LOG_INFO, "state.isRunning is FALSE");
-            }
-            TraceLog(LOG_INFO, "Button \"Start /Stop\" has been pressed!");
-        }
+
         //Algorythm List
         int tempActive = state.activeAlg;
         GuiListView(Config::recForListAlgorythm, "A*;Dijkstra;Breadth First search;Depth First search;Right Hand Method", &state.scrollIndex, &tempActive);
@@ -105,6 +91,21 @@ namespace UI {
             TraceLog(LOG_INFO, "Selected algorithm: %s", algorithms[state.activeAlg].c_str());
         }
 
+        //Start / Stop Button
+        if (GuiButton(Config::recForStartStopButton, "Start | Stop") != 0) {
+            state.isRunning = !state.isRunning;
+            if (state.isRunning) {
+                algorythmSelectionLogic(state, bfs);
+            }
+
+            //Developer diagnostic logs
+            if (state.isRunning) {
+                TraceLog(LOG_INFO, "state.isRunning is TRUE");
+            } else {
+                TraceLog(LOG_INFO, "state.isRunning is FALSE");
+            }
+            TraceLog(LOG_INFO, "Button \"Start /Stop\" has been pressed!");
+        }
 
         //Draw Checkbox
         if (GuiCheckBox(Config::recForDrawWallCheckbox, "Draw walls (toggle)", &state.toggleBuildWall) != 0) {
@@ -290,6 +291,24 @@ namespace UI {
                     GOLD
                 );
             }
+        }
+    }
+
+    auto algorythmSelectionLogic(const AppState& state, BFS& bfs) -> void {
+        switch (state.activeAlg) {
+            case 2: // Breadth First Search
+                bfs.initPath(state.startNodeIndex, state.endNodeIndex);
+                break;
+
+            case 0: // A*
+            case 1: // Dijkstra
+            case 3: // Depth First Search
+            case 4: // Right Hand Method
+                break;
+
+            default:
+                TraceLog(LOG_WARNING, "Invalid algorithm index: %d", state.activeAlg);
+                break;
         }
     }
 }
