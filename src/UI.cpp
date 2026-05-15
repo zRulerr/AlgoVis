@@ -277,7 +277,7 @@ namespace UI {
 
         //draw path if found
         if (bfs.isFound()) {
-            std::vector<int> path = const_cast<BFS&>(bfs).reconstructPath(bfs.getCameFrom(), startIndex, endIndex);
+            std::vector<int> path = BFS::reconstructPath(bfs.getCameFrom(), startIndex, endIndex);
 
             for (int index : path) {
                 //Dont draw over start and end index

@@ -19,7 +19,7 @@ public:
     explicit BFS(Grid& grid);
 
     auto initPath(int startIndex, int endIndex) -> void;
-    auto reconstructPath(const std::unordered_map<int, int>& cameFrom, int start, int target) -> std::vector<int>;
+    static auto reconstructPath(const std::unordered_map<int, int>& cameFrom, int start, int target) -> std::vector<int>;
 
 
     auto step(int targetIndex) -> void; 
