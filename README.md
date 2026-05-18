@@ -49,3 +49,7 @@ While some maze-solving algorithms are straightforward, others can be quite chal
 *  **Feature 3:** Get analytic Data such as passed time, knots used for educational purposes (wip)
 
 ---
+
+## License
+
+Distributed under the GNU General Public License v3.0. See `LICENSE` for more information.
