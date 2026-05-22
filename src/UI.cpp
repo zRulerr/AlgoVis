@@ -311,4 +311,10 @@ namespace UI {
                 break;
         }
     }
+
+    auto drawLinkIcon() -> void {
+        if (GuiButton(Config::recBugReport, "#236# Report Bug")) {
+            OpenURL(Config::GITHUB_BUG_REPORT_URL);
+        }
+    }
 }

@@ -50,6 +50,7 @@ namespace Config {
     inline const Rectangle playbackElements = {sidePanelWidth, gridArea.height, gridArea.width, screenHeightOffset};
     inline const Rectangle recForStartStopButton = {playbackElements.x + (playbackElements.width /2) - (buttonWidth /2), playbackElements.y + (playbackElements.height /2) - (buttonHeight /2), buttonWidth, buttonHeight};
     inline const Rectangle recForDrawWallCheckbox = {startX , recForSlider.y + 40, 20, 20};
+    inline const Rectangle recBugReport = {10, analyticsPanel.height - 30, sidePanelWidth - 20, 20}; 
 
     /** @brief The Grid Spacing is the amount of Space between each Cell/Node in pixel */
     inline const int defaultGridSpacing = 40; 
@@ -61,4 +62,7 @@ namespace Config {
         bool EditModeWidth = false;
         bool EditModeHeight = false;
     };
+
+    /** @brief Links */
+    inline const char * GITHUB_BUG_REPORT_URL = "https://github.com/zRulerr/AlgoVis/issues/new?template=bug_report.md";
 }

@@ -77,4 +77,7 @@ namespace UI {
 
     /** @brief A Method to handle the logic when an algorithm is selected and the start button is pressed */
     auto algorythmSelectionLogic(const AppState& state, BFS& bfs) -> void;
+
+    /** @brief A Method to draw the Hyperlink Icons */
+    auto drawLinkIcon() -> void;
 }

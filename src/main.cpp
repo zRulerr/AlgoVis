@@ -89,7 +89,7 @@ auto main() -> int {
             //Slider /ListView
             GuiSliderBar(Config::recForSlider, "Min", "Max", &state.algorythmSpeed, 1, 100);
 
-
+            UI::drawLinkIcon();
         EndDrawing();
     }
     UnloadFont(customFont);
